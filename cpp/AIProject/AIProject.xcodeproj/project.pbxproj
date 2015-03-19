@@ -1,0 +1,249 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		9757D4321AB9A3B1004246D4 /* ai.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9757D42D1AB9A3B1004246D4 /* ai.cpp */; };
+		9757D4331AB9A3B1004246D4 /* SampleAi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9757D42F1AB9A3B1004246D4 /* SampleAi.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		9757D4211AB9A38A004246D4 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		9757D4231AB9A38A004246D4 /* AIProject */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = AIProject; sourceTree = BUILT_PRODUCTS_DIR; };
+		9757D42D1AB9A3B1004246D4 /* ai.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ai.cpp; sourceTree = "<group>"; };
+		9757D42E1AB9A3B1004246D4 /* Types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Types.h; sourceTree = "<group>"; };
+		9757D42F1AB9A3B1004246D4 /* SampleAi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SampleAi.cpp; sourceTree = "<group>"; };
+		9757D4301AB9A3B1004246D4 /* SampleAi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleAi.h; sourceTree = "<group>"; };
+		9757D4311AB9A3B1004246D4 /* AIInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AIInterface.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9757D4201AB9A38A004246D4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		9757D41A1AB9A38A004246D4 = {
+			isa = PBXGroup;
+			children = (
+				9757D4251AB9A38A004246D4 /* AIProject */,
+				9757D4241AB9A38A004246D4 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		9757D4241AB9A38A004246D4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9757D4231AB9A38A004246D4 /* AIProject */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9757D4251AB9A38A004246D4 /* AIProject */ = {
+			isa = PBXGroup;
+			children = (
+				9757D42D1AB9A3B1004246D4 /* ai.cpp */,
+				9757D42E1AB9A3B1004246D4 /* Types.h */,
+				9757D42F1AB9A3B1004246D4 /* SampleAi.cpp */,
+				9757D4301AB9A3B1004246D4 /* SampleAi.h */,
+				9757D4311AB9A3B1004246D4 /* AIInterface.h */,
+			);
+			path = AIProject;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		9757D4221AB9A38A004246D4 /* AIProject */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9757D42A1AB9A38A004246D4 /* Build configuration list for PBXNativeTarget "AIProject" */;
+			buildPhases = (
+				9757D41F1AB9A38A004246D4 /* Sources */,
+				9757D4201AB9A38A004246D4 /* Frameworks */,
+				9757D4211AB9A38A004246D4 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AIProject;
+			productName = AIProject;
+			productReference = 9757D4231AB9A38A004246D4 /* AIProject */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9757D41B1AB9A38A004246D4 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = SGE;
+				TargetAttributes = {
+					9757D4221AB9A38A004246D4 = {
+						CreatedOnToolsVersion = 6.1;
+					};
+				};
+			};
+			buildConfigurationList = 9757D41E1AB9A38A004246D4 /* Build configuration list for PBXProject "AIProject" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 9757D41A1AB9A38A004246D4;
+			productRefGroup = 9757D4241AB9A38A004246D4 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				9757D4221AB9A38A004246D4 /* AIProject */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9757D41F1AB9A38A004246D4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9757D4321AB9A3B1004246D4 /* ai.cpp in Sources */,
+				9757D4331AB9A3B1004246D4 /* SampleAi.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		9757D4281AB9A38A004246D4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		9757D4291AB9A38A004246D4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		9757D42B1AB9A38A004246D4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		9757D42C1AB9A38A004246D4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		9757D41E1AB9A38A004246D4 /* Build configuration list for PBXProject "AIProject" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9757D4281AB9A38A004246D4 /* Debug */,
+				9757D4291AB9A38A004246D4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9757D42A1AB9A38A004246D4 /* Build configuration list for PBXNativeTarget "AIProject" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9757D42B1AB9A38A004246D4 /* Debug */,
+				9757D42C1AB9A38A004246D4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 9757D41B1AB9A38A004246D4 /* Project object */;
+}
