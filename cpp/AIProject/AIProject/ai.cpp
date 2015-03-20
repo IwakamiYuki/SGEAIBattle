@@ -12,6 +12,7 @@ public:
         scanf("%d %d\n", &turn, &player_id);
         scanf("%d\n", &player_count);
         turnData.turn = turn;
+        turnData.myId = player_id;
         
         for (int i = 0; i < player_count; ++i) {
             PlayerData playerData = PlayerData();
@@ -73,17 +74,22 @@ private:
     char end_text[4];
 };
 
-int main(){
+int main()
+{
     AICore* ai_core = new AICore();
     AIInterface* ai = new SampleAI();
-    
+
+	
     int turn = 0;
     do {
-        TurnData turnData = ai_core->input();
-        Command command = ai->Update(turnData);
-        ai_core->output(command);
+        ai->logFp = fopen("ai.log", "a");
+		TurnData turnData = ai_core->input();
+		Command command = ai->Update(turnData);
+		ai_core->output(command);
+		fclose(ai->logFp);
     } while(turn < 600);
-    return 0;
+
+	 return 0;
 }
 
 
