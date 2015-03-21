@@ -1,7 +1,7 @@
 #include<iostream>
 #include "AIInterface.h"
 #include "SampleAi.h"
-#include "Iwakami001Ai.h"
+#include "Moriken001Ai.h"
 
 using namespace std;
 
@@ -80,7 +80,7 @@ int main()
 {
     AICore* ai_core = new AICore();
     //AIInterface* ai = new SampleAI();
-    AIInterface* ai = new Iwakami001AI();
+    AIInterface* ai = new Moriken001AI();
 
 
     int turn = 0;
