@@ -3,7 +3,7 @@
 
 using namespace std;
 
-Iwakami001AI::Iwakami001AI() 
+Iwakami001AI::Iwakami001AI()
 {
 	srand((unsigned) time(NULL));
 }
@@ -16,6 +16,7 @@ TimeLength Iwakami001AI::GetTimeLength(float startX, float startY, int startAngl
 	float currentY = startY;
 	int currentAngle = startAngle;
 
+  timeLength->turn = 6000;
 	//*
 	for (int i = 1; i < 600; i++)
 	{
