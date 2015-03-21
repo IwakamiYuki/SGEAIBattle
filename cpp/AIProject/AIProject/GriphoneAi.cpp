@@ -231,7 +231,6 @@ Command GriphoneAI::Update(TurnData turnData)
 			if (pCurrentCoinData->appearTime > timeLength.turn) continue;
 
 			// 敵の方が早くとれてしまうコインは除外
-			//PlayerData *pEnemyPlayer1Data = &turnData.playerList[(turnData.myId + 1) % 3];
 			TimeLength timeLengthE1 = GetTimeLength(
 				pEnemyPlayer1Data->pos.x,
 				pEnemyPlayer1Data->pos.y,
@@ -243,7 +242,6 @@ Command GriphoneAI::Update(TurnData turnData)
 			{
 				continue;
 			}
-			//PlayerData *pEnemyPlayer2Data = &turnData.playerList[(turnData.myId + 2) % 3];
 			TimeLength timeLengthE2 = GetTimeLength(
 				pEnemyPlayer2Data->pos.x,
 				pEnemyPlayer2Data->pos.y,
