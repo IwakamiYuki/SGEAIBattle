@@ -292,7 +292,20 @@ Command Iwakami001AI::Update(TurnData turnData) {
 
 	/* -12 <= angle <= +12 */
 	//command->angle = rand() % 25 - 12;
+
+
 	command->angle = angle;
+  // クールタイム中は攻撃できない
+  if (pCurrentMyPlayerData->coolTime > 0)
+  {
+    command->action = GameAction::Move;
+  }
+  // スタンタイム中は移動も攻撃も向き変更もできない
+  if (pCurrentMyPlayerData->stunTime > 0)
+  {
+    command->angle = 0;
+    command->action = GameAction::Move;
+  }
 
 	return *command;
 }
