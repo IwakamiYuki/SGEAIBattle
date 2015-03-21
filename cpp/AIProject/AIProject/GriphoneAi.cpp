@@ -112,13 +112,17 @@ Command GriphoneAI::Update(TurnData turnData) {
 			pCurrentMyPlayerData->pos.y
 		);
 		fprintf(logFp, "vs1:		%d - %d\n", timeLengthMtoE1.turn, timeLengthE1toM.turn);
-		if (pEnemmyPlayer1Data->coin > pCurrentMyPlayerData->coin && pEnemmyPlayer1Data->stunTime == 0 && timeLengthMtoE1.turn <=5 && timeLengthMtoE1.turn <= timeLengthE1toM.turn)
-		{
-			targetX = pEnemmyPlayer1Data->pos.x;
-			targetY = pEnemmyPlayer1Data->pos.y;
-			command->action = GameAction::Attack;
-      fprintf(logFp, "attack 1\n");
-		}
+    if (timeLengthMtoE1.turn <=3)
+    {
+      command->action = GameAction::Attack;
+      if (pEnemmyPlayer1Data->coin > pCurrentMyPlayerData->coin && pEnemmyPlayer1Data->stunTime == 0 && timeLengthMtoE1.turn <= timeLengthE1toM.turn)
+      {
+        targetX = pEnemmyPlayer1Data->pos.x;
+        targetY = pEnemmyPlayer1Data->pos.y;
+        command->action = GameAction::Attack;
+        fprintf(logFp, "attack 2\n");
+      }
+    }
 	}
 	if (targetX < 0 && targetY < 0)
 	{
@@ -137,13 +141,17 @@ Command GriphoneAI::Update(TurnData turnData) {
 			pCurrentMyPlayerData->pos.y
 		);
 		fprintf(logFp, "vs2:		%d - %d\n", timeLengthMtoE2.turn, timeLengthE2toM.turn);
-		if (pEnemmyPlayer2Data->coin > pCurrentMyPlayerData->coin && pEnemmyPlayer2Data->stunTime == 0 && timeLengthMtoE2.turn <=5 && timeLengthMtoE2.turn <= timeLengthE2toM.turn)
-		{
-			targetX = pEnemmyPlayer2Data->pos.x;
-			targetY = pEnemmyPlayer2Data->pos.y;
-			command->action = GameAction::Attack;
-      fprintf(logFp, "attack 2\n");
-		}
+    if(timeLengthMtoE2.turn <=3)
+    {
+      command->action = GameAction::Attack;
+      if (pEnemmyPlayer2Data->coin > pCurrentMyPlayerData->coin && pEnemmyPlayer2Data->stunTime == 0 && timeLengthMtoE2.turn <= timeLengthE2toM.turn)
+      {
+        targetX = pEnemmyPlayer2Data->pos.x;
+        targetY = pEnemmyPlayer2Data->pos.y;
+        command->action = GameAction::Attack;
+        fprintf(logFp, "attack 3\n");
+      }
+    }
 	}
 
 
