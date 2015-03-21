@@ -28,15 +28,16 @@ TimeLength GriphoneAI::GetTimeLength(float startX, float startY, int startAngle,
 		if (dAngle > 12) dAngle = 12;
 		if (dAngle < -12) dAngle = -12;
 
+		currentAngle += dAngle;
 		currentX += 30 * cos(currentAngle * M_PI / 180);
 		currentY += 30 * sin(currentAngle * M_PI / 180);
-		currentAngle += dAngle;
 
 		if (i < 100)
 			fprintf(logFp, "cul %d:	(%f,%f, %d)=>(%f,%f)	%d \n", i, currentX, currentY, currentAngle, targetX, targetY, ddAngle);
 		if ((currentX - targetX) * (currentX - targetX) + (currentY - targetY) * (currentY - targetY) < 1000)
 		{
 			timeLength->turn = i;
+			timeLength->angle = currentAngle;
 			break;
 		}
 	}
@@ -237,6 +238,8 @@ Command GriphoneAI::Update(TurnData turnData) {
 		{
 			targetX = pEnemmyPlayer1Data->pos.x;
 			targetY = pEnemmyPlayer1Data->pos.y;
+      targetX += 30 * cos(timeLengthMtoE1.angle * M_PI / 180) * timeLengthMtoE1.turn;
+      targetY += 30 * sin(timeLengthMtoE1.angle * M_PI / 180) * timeLengthMtoE1.turn;
 		}
 	}
 
@@ -261,6 +264,8 @@ Command GriphoneAI::Update(TurnData turnData) {
 		{
 			targetX = pEnemmyPlayer2Data->pos.x;
 			targetY = pEnemmyPlayer2Data->pos.y;
+      targetX += 30 * cos(timeLengthMtoE2.angle * M_PI / 180) * timeLengthMtoE2.turn;
+      targetY += 30 * sin(timeLengthMtoE2.angle * M_PI / 180) * timeLengthMtoE2.turn;
 		}
 	}
 
