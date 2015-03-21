@@ -106,8 +106,8 @@ Command GriphoneAI::Update(TurnData turnData)
 	command->action = GameAction::Move;
 
 	// 敵
-	PlayerData *pEnemmyPlayer1Data = &turnData.playerList[(turnData.myId + 1) % 3];
-	PlayerData *pEnemmyPlayer2Data = &turnData.playerList[(turnData.myId + 2) % 3];
+	PlayerData *pEnemyPlayer1Data = &turnData.playerList[(turnData.myId + 1) % 3];
+	PlayerData *pEnemyPlayer2Data = &turnData.playerList[(turnData.myId + 2) % 3];
 
 
 	/* 行動を考える */
@@ -119,14 +119,14 @@ Command GriphoneAI::Update(TurnData turnData)
 			pCurrentMyPlayerData->pos.x,
 			pCurrentMyPlayerData->pos.y,
 			pCurrentMyPlayerData->angle,
-			pEnemmyPlayer1Data->pos.x,
-			pEnemmyPlayer1Data->pos.y
+			pEnemyPlayer1Data->pos.x,
+			pEnemyPlayer1Data->pos.y
 		);
 		// 敵から自分までのターン距離
 		TimeLength timeLengthE1toM = GetTimeLength(
-			pEnemmyPlayer1Data->pos.x,
-			pEnemmyPlayer1Data->pos.y,
-			pEnemmyPlayer1Data->angle,
+			pEnemyPlayer1Data->pos.x,
+			pEnemyPlayer1Data->pos.y,
+			pEnemyPlayer1Data->angle,
 			pCurrentMyPlayerData->pos.x,
 			pCurrentMyPlayerData->pos.y
 		);
@@ -136,10 +136,10 @@ Command GriphoneAI::Update(TurnData turnData)
 		{
 			command->action = GameAction::Attack;
 			// 攻撃すべき状況か
-			if (pEnemmyPlayer1Data->coin > pCurrentMyPlayerData->coin && pEnemmyPlayer1Data->stunTime == 0 && timeLengthMtoE1.turn <= timeLengthE1toM.turn)
+			if (pEnemyPlayer1Data->coin > pCurrentMyPlayerData->coin && pEnemyPlayer1Data->stunTime == 0 && timeLengthMtoE1.turn <= timeLengthE1toM.turn)
 			{
-				targetX = pEnemmyPlayer1Data->pos.x;
-				targetY = pEnemmyPlayer1Data->pos.y;
+				targetX = pEnemyPlayer1Data->pos.x;
+				targetY = pEnemyPlayer1Data->pos.y;
 				fprintf(logFp, "attack 2\n");
 			}
 		}
@@ -152,14 +152,14 @@ Command GriphoneAI::Update(TurnData turnData)
 			pCurrentMyPlayerData->pos.x,
 			pCurrentMyPlayerData->pos.y,
 			pCurrentMyPlayerData->angle,
-			pEnemmyPlayer2Data->pos.x,
-			pEnemmyPlayer2Data->pos.y
+			pEnemyPlayer2Data->pos.x,
+			pEnemyPlayer2Data->pos.y
 		);
 		// 敵から自分までのターン距離
 		TimeLength timeLengthE2toM = GetTimeLength(
-			pEnemmyPlayer2Data->pos.x,
-			pEnemmyPlayer2Data->pos.y,
-			pEnemmyPlayer2Data->angle,
+			pEnemyPlayer2Data->pos.x,
+			pEnemyPlayer2Data->pos.y,
+			pEnemyPlayer2Data->angle,
 			pCurrentMyPlayerData->pos.x,
 			pCurrentMyPlayerData->pos.y
 		);
@@ -169,10 +169,10 @@ Command GriphoneAI::Update(TurnData turnData)
 		{
 			command->action = GameAction::Attack;
 			// 攻撃すべき状況か
-			if (pEnemmyPlayer2Data->coin > pCurrentMyPlayerData->coin && pEnemmyPlayer2Data->stunTime == 0 && timeLengthMtoE2.turn <= timeLengthE2toM.turn)
+			if (pEnemyPlayer2Data->coin > pCurrentMyPlayerData->coin && pEnemyPlayer2Data->stunTime == 0 && timeLengthMtoE2.turn <= timeLengthE2toM.turn)
 			{
-				targetX = pEnemmyPlayer2Data->pos.x;
-				targetY = pEnemmyPlayer2Data->pos.y;
+				targetX = pEnemyPlayer2Data->pos.x;
+				targetY = pEnemyPlayer2Data->pos.y;
 				fprintf(logFp, "attack 3\n");
 			}
 		}
@@ -193,12 +193,12 @@ Command GriphoneAI::Update(TurnData turnData)
 			CoinData *pCurrentCoinData = &turnData.coinList[i];
 
 			// 敵とくっついてたら
-			if (getLengthSquare(pCurrentMyPlayerData->pos.x, pCurrentMyPlayerData->pos.y, pEnemmyPlayer1Data->pos.x, pEnemmyPlayer1Data->pos.y) < 6400 * 2)
+			if (getLengthSquare(pCurrentMyPlayerData->pos.x, pCurrentMyPlayerData->pos.y, pEnemyPlayer1Data->pos.x, pEnemyPlayer1Data->pos.y) < 6400 * 2)
 			{
 				// 相手にぶつかる場合は除外
 				if (
 					getLengthSquare(pCurrentMyPlayerData->pos.x, pCurrentMyPlayerData->pos.y, pCurrentCoinData->pos.x, pCurrentCoinData->pos.y) + 6400 * 2 >
-					getLengthSquare(pEnemmyPlayer1Data->pos.x, pEnemmyPlayer1Data->pos.y, pCurrentCoinData->pos.x, pCurrentCoinData->pos.y
+					getLengthSquare(pEnemyPlayer1Data->pos.x, pEnemyPlayer1Data->pos.y, pCurrentCoinData->pos.x, pCurrentCoinData->pos.y
 						)
 				)
 				{
@@ -206,12 +206,12 @@ Command GriphoneAI::Update(TurnData turnData)
 				}
 			}
 			// 敵とくっついてたら
-			if (getLengthSquare(pCurrentMyPlayerData->pos.x, pCurrentMyPlayerData->pos.y, pEnemmyPlayer2Data->pos.x, pEnemmyPlayer2Data->pos.y) < 6400 * 2)
+			if (getLengthSquare(pCurrentMyPlayerData->pos.x, pCurrentMyPlayerData->pos.y, pEnemyPlayer2Data->pos.x, pEnemyPlayer2Data->pos.y) < 6400 * 2)
 			{
 				// 相手にぶつかる場合は除外
 				if (
 					getLengthSquare(pCurrentMyPlayerData->pos.x, pCurrentMyPlayerData->pos.y, pCurrentCoinData->pos.x, pCurrentCoinData->pos.y) + 6400 * 2	>
-					getLengthSquare(pEnemmyPlayer2Data->pos.x, pEnemmyPlayer2Data->pos.y, pCurrentCoinData->pos.x, pCurrentCoinData->pos.y
+					getLengthSquare(pEnemyPlayer2Data->pos.x, pEnemyPlayer2Data->pos.y, pCurrentCoinData->pos.x, pCurrentCoinData->pos.y
 						)
 				)
 				{
@@ -231,11 +231,11 @@ Command GriphoneAI::Update(TurnData turnData)
 			if (pCurrentCoinData->appearTime > timeLength.turn) continue;
 
 			// 敵の方が早くとれてしまうコインは除外
-			//PlayerData *pEnemmyPlayer1Data = &turnData.playerList[(turnData.myId + 1) % 3];
+			//PlayerData *pEnemyPlayer1Data = &turnData.playerList[(turnData.myId + 1) % 3];
 			TimeLength timeLengthE1 = GetTimeLength(
-				pEnemmyPlayer1Data->pos.x,
-				pEnemmyPlayer1Data->pos.y,
-				pEnemmyPlayer1Data->angle,
+				pEnemyPlayer1Data->pos.x,
+				pEnemyPlayer1Data->pos.y,
+				pEnemyPlayer1Data->angle,
 				pCurrentCoinData->pos.x,
 				pCurrentCoinData->pos.y
 			);
@@ -243,11 +243,11 @@ Command GriphoneAI::Update(TurnData turnData)
 			{
 				continue;
 			}
-			//PlayerData *pEnemmyPlayer2Data = &turnData.playerList[(turnData.myId + 2) % 3];
+			//PlayerData *pEnemyPlayer2Data = &turnData.playerList[(turnData.myId + 2) % 3];
 			TimeLength timeLengthE2 = GetTimeLength(
-				pEnemmyPlayer2Data->pos.x,
-				pEnemmyPlayer2Data->pos.y,
-				pEnemmyPlayer2Data->angle,
+				pEnemyPlayer2Data->pos.x,
+				pEnemyPlayer2Data->pos.y,
+				pEnemyPlayer2Data->angle,
 				pCurrentCoinData->pos.x,
 				pCurrentCoinData->pos.y
 			);
@@ -278,55 +278,55 @@ Command GriphoneAI::Update(TurnData turnData)
 	}
 
 	// 追跡する
-	if (targetX < 0 && targetY < 0 && pEnemmyPlayer1Data->coin >= pEnemmyPlayer2Data->coin)
+	if (targetX < 0 && targetY < 0 && pEnemyPlayer1Data->coin >= pEnemyPlayer2Data->coin)
 	{
 		TimeLength timeLengthMtoE1 = GetTimeLength(
 			pCurrentMyPlayerData->pos.x,
 			pCurrentMyPlayerData->pos.y,
 			pCurrentMyPlayerData->angle,
-			pEnemmyPlayer1Data->pos.x,
-			pEnemmyPlayer1Data->pos.y
+			pEnemyPlayer1Data->pos.x,
+			pEnemyPlayer1Data->pos.y
 		);
 		TimeLength timeLengthE1toM = GetTimeLength(
-			pEnemmyPlayer1Data->pos.x,
-			pEnemmyPlayer1Data->pos.y,
-			pEnemmyPlayer1Data->angle,
+			pEnemyPlayer1Data->pos.x,
+			pEnemyPlayer1Data->pos.y,
+			pEnemyPlayer1Data->angle,
 			pCurrentMyPlayerData->pos.x,
 			pCurrentMyPlayerData->pos.y
 		);
 		fprintf(logFp, "vs1:		%d - %d\n", timeLengthMtoE1.turn, timeLengthE1toM.turn);
 		// 有利な状態は追跡する
-		if (pEnemmyPlayer1Data->stunTime == 0 && pEnemmyPlayer1Data->coin >= pCurrentMyPlayerData->coin && timeLengthMtoE1.turn <= timeLengthE1toM.turn)
+		if (pEnemyPlayer1Data->stunTime == 0 && pEnemyPlayer1Data->coin >= pCurrentMyPlayerData->coin && timeLengthMtoE1.turn <= timeLengthE1toM.turn)
 		{
-			targetX = pEnemmyPlayer1Data->pos.x;
-			targetY = pEnemmyPlayer1Data->pos.y;
+			targetX = pEnemyPlayer1Data->pos.x;
+			targetY = pEnemyPlayer1Data->pos.y;
 			targetX += MOVEMENT * cos(timeLengthMtoE1.angle * M_PI / 180) * timeLengthMtoE1.turn;
 			targetY += MOVEMENT * sin(timeLengthMtoE1.angle * M_PI / 180) * timeLengthMtoE1.turn;
 		}
 	}
 
-	if (targetX < 0 && targetY < 0 && pEnemmyPlayer2Data->coin >= pEnemmyPlayer1Data->coin)
+	if (targetX < 0 && targetY < 0 && pEnemyPlayer2Data->coin >= pEnemyPlayer1Data->coin)
 	{
 		TimeLength timeLengthMtoE2 = GetTimeLength(
 			pCurrentMyPlayerData->pos.x,
 			pCurrentMyPlayerData->pos.y,
 			pCurrentMyPlayerData->angle,
-			pEnemmyPlayer2Data->pos.x,
-			pEnemmyPlayer2Data->pos.y
+			pEnemyPlayer2Data->pos.x,
+			pEnemyPlayer2Data->pos.y
 		);
 		TimeLength timeLengthE2toM = GetTimeLength(
-			pEnemmyPlayer2Data->pos.x,
-			pEnemmyPlayer2Data->pos.y,
-			pEnemmyPlayer2Data->angle,
+			pEnemyPlayer2Data->pos.x,
+			pEnemyPlayer2Data->pos.y,
+			pEnemyPlayer2Data->angle,
 			pCurrentMyPlayerData->pos.x,
 			pCurrentMyPlayerData->pos.y
 		);
 		fprintf(logFp, "vs2:		%d - %d\n", timeLengthMtoE2.turn, timeLengthE2toM.turn);
 		// 有利な状態は追跡する
-		if (pEnemmyPlayer2Data->stunTime == 0 && pEnemmyPlayer2Data->coin >= pCurrentMyPlayerData->coin && timeLengthMtoE2.turn <= timeLengthE2toM.turn)
+		if (pEnemyPlayer2Data->stunTime == 0 && pEnemyPlayer2Data->coin >= pCurrentMyPlayerData->coin && timeLengthMtoE2.turn <= timeLengthE2toM.turn)
 		{
-			targetX = pEnemmyPlayer2Data->pos.x;
-			targetY = pEnemmyPlayer2Data->pos.y;
+			targetX = pEnemyPlayer2Data->pos.x;
+			targetY = pEnemyPlayer2Data->pos.y;
 			targetX += MOVEMENT * cos(timeLengthMtoE2.angle * M_PI / 180) * timeLengthMtoE2.turn;
 			targetY += MOVEMENT * sin(timeLengthMtoE2.angle * M_PI / 180) * timeLengthMtoE2.turn;
 		}
