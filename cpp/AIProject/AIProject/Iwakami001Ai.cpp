@@ -19,7 +19,7 @@ TimeLength Iwakami001AI::GetTimeLength(float startX, float startY, int startAngl
 	//*
 	for (int i = 1; i < 600; i++)
 	{
-		int dAngle = 180 / 3.14 * atan2f(targetY - currentY, targetX - currentX) - currentAngle;
+		int dAngle = 180 / M_PI * atan2f(targetY - currentY, targetX - currentX) - currentAngle;
 
 		dAngle = (dAngle + 720 + 180) % 360 -180;
 		int ddAngle = dAngle;
