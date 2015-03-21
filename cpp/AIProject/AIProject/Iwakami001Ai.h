@@ -1,5 +1,11 @@
 #ifndef AIProject_Iwakami001Ai_h
 #define AIProject_Iwakami001Ai_h
+#define _USE_MATH_DEFINES
+#include <stdio.h>
+#include <time.h>
+#include <iostream>
+#include <stdlib.h>
+#include <cmath>
 
 #include "Types.h"
 #include "AIInterface.h"
