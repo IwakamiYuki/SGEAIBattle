@@ -115,7 +115,7 @@ Command GriphoneAI::Update(TurnData turnData)
 	{
 		// 近くにいたら攻撃
 		// 自分から敵までのターン距離
-		TimeLength timeLengthMtoE1 = GetTimeLength(
+		TimeLength timeLengthMeToEnemy1 = GetTimeLength(
 			pCurrentMyPlayerData->pos.x,
 			pCurrentMyPlayerData->pos.y,
 			pCurrentMyPlayerData->angle,
@@ -123,20 +123,20 @@ Command GriphoneAI::Update(TurnData turnData)
 			pEnemyPlayer1Data->pos.y
 		);
 		// 敵から自分までのターン距離
-		TimeLength timeLengthE1toM = GetTimeLength(
+		TimeLength timeLengthEnemy1ToMe = GetTimeLength(
 			pEnemyPlayer1Data->pos.x,
 			pEnemyPlayer1Data->pos.y,
 			pEnemyPlayer1Data->angle,
 			pCurrentMyPlayerData->pos.x,
 			pCurrentMyPlayerData->pos.y
 		);
-		fprintf(logFp, "vs1:		%d - %d\n", timeLengthMtoE1.turn, timeLengthE1toM.turn);
+		fprintf(logFp, "vs1:		%d - %d\n", timeLengthMeToEnemy1.turn, timeLengthEnemy1ToMe.turn);
 		// ある程度近くにいたら
-		if (timeLengthMtoE1.turn <= PLAYER_COUNT)
+		if (timeLengthMeToEnemy1.turn <= PLAYER_COUNT)
 		{
 			command->action = GameAction::Attack;
 			// 攻撃すべき状況か
-			if (pEnemyPlayer1Data->coin > pCurrentMyPlayerData->coin && pEnemyPlayer1Data->stunTime == 0 && timeLengthMtoE1.turn <= timeLengthE1toM.turn)
+			if (pEnemyPlayer1Data->coin > pCurrentMyPlayerData->coin && pEnemyPlayer1Data->stunTime == 0 && timeLengthMeToEnemy1.turn <= timeLengthEnemy1ToMe.turn)
 			{
 				targetX = pEnemyPlayer1Data->pos.x;
 				targetY = pEnemyPlayer1Data->pos.y;
@@ -148,7 +148,7 @@ Command GriphoneAI::Update(TurnData turnData)
 	{
 		// 近くにいたら攻撃
 		// 自分から敵までのターン距離
-		TimeLength timeLengthMtoE2 = GetTimeLength(
+		TimeLength timeLengthMeToEnemy2 = GetTimeLength(
 			pCurrentMyPlayerData->pos.x,
 			pCurrentMyPlayerData->pos.y,
 			pCurrentMyPlayerData->angle,
@@ -156,20 +156,20 @@ Command GriphoneAI::Update(TurnData turnData)
 			pEnemyPlayer2Data->pos.y
 		);
 		// 敵から自分までのターン距離
-		TimeLength timeLengthE2toM = GetTimeLength(
+		TimeLength timeLengthEnemy2ToMe = GetTimeLength(
 			pEnemyPlayer2Data->pos.x,
 			pEnemyPlayer2Data->pos.y,
 			pEnemyPlayer2Data->angle,
 			pCurrentMyPlayerData->pos.x,
 			pCurrentMyPlayerData->pos.y
 		);
-		fprintf(logFp, "vs2:		%d - %d\n", timeLengthMtoE2.turn, timeLengthE2toM.turn);
+		fprintf(logFp, "vs2:		%d - %d\n", timeLengthMeToEnemy2.turn, timeLengthEnemy2ToMe.turn);
 		// ある程度近くにいたら
-		if(timeLengthMtoE2.turn <= PLAYER_COUNT)
+		if(timeLengthMeToEnemy2.turn <= PLAYER_COUNT)
 		{
 			command->action = GameAction::Attack;
 			// 攻撃すべき状況か
-			if (pEnemyPlayer2Data->coin > pCurrentMyPlayerData->coin && pEnemyPlayer2Data->stunTime == 0 && timeLengthMtoE2.turn <= timeLengthE2toM.turn)
+			if (pEnemyPlayer2Data->coin > pCurrentMyPlayerData->coin && pEnemyPlayer2Data->stunTime == 0 && timeLengthMeToEnemy2.turn <= timeLengthEnemy2ToMe.turn)
 			{
 				targetX = pEnemyPlayer2Data->pos.x;
 				targetY = pEnemyPlayer2Data->pos.y;
@@ -278,55 +278,55 @@ Command GriphoneAI::Update(TurnData turnData)
 	// 追跡する
 	if (targetX < 0 && targetY < 0 && pEnemyPlayer1Data->coin >= pEnemyPlayer2Data->coin)
 	{
-		TimeLength timeLengthMtoE1 = GetTimeLength(
+		TimeLength timeLengthMeToEnemy1 = GetTimeLength(
 			pCurrentMyPlayerData->pos.x,
 			pCurrentMyPlayerData->pos.y,
 			pCurrentMyPlayerData->angle,
 			pEnemyPlayer1Data->pos.x,
 			pEnemyPlayer1Data->pos.y
 		);
-		TimeLength timeLengthE1toM = GetTimeLength(
+		TimeLength timeLengthEnemy1ToMe = GetTimeLength(
 			pEnemyPlayer1Data->pos.x,
 			pEnemyPlayer1Data->pos.y,
 			pEnemyPlayer1Data->angle,
 			pCurrentMyPlayerData->pos.x,
 			pCurrentMyPlayerData->pos.y
 		);
-		fprintf(logFp, "vs1:		%d - %d\n", timeLengthMtoE1.turn, timeLengthE1toM.turn);
+		fprintf(logFp, "vs1:		%d - %d\n", timeLengthMeToEnemy1.turn, timeLengthEnemy1ToMe.turn);
 		// 有利な状態は追跡する
-		if (pEnemyPlayer1Data->stunTime == 0 && pEnemyPlayer1Data->coin >= pCurrentMyPlayerData->coin && timeLengthMtoE1.turn <= timeLengthE1toM.turn)
+		if (pEnemyPlayer1Data->stunTime == 0 && pEnemyPlayer1Data->coin >= pCurrentMyPlayerData->coin && timeLengthMeToEnemy1.turn <= timeLengthEnemy1ToMe.turn)
 		{
 			targetX = pEnemyPlayer1Data->pos.x;
 			targetY = pEnemyPlayer1Data->pos.y;
-			targetX += WALK_DIST_PER_TURN * PLAYER_COUNT * cos(timeLengthMtoE1.angle * M_PI / 180) * timeLengthMtoE1.turn;
-			targetY += WALK_DIST_PER_TURN * PLAYER_COUNT * sin(timeLengthMtoE1.angle * M_PI / 180) * timeLengthMtoE1.turn;
+			targetX += WALK_DIST_PER_TURN * PLAYER_COUNT * cos(timeLengthMeToEnemy1.angle * M_PI / 180) * timeLengthMeToEnemy1.turn;
+			targetY += WALK_DIST_PER_TURN * PLAYER_COUNT * sin(timeLengthMeToEnemy1.angle * M_PI / 180) * timeLengthMeToEnemy1.turn;
 		}
 	}
 
 	if (targetX < 0 && targetY < 0 && pEnemyPlayer2Data->coin >= pEnemyPlayer1Data->coin)
 	{
-		TimeLength timeLengthMtoE2 = GetTimeLength(
+		TimeLength timeLengthMeToEnemy2 = GetTimeLength(
 			pCurrentMyPlayerData->pos.x,
 			pCurrentMyPlayerData->pos.y,
 			pCurrentMyPlayerData->angle,
 			pEnemyPlayer2Data->pos.x,
 			pEnemyPlayer2Data->pos.y
 		);
-		TimeLength timeLengthE2toM = GetTimeLength(
+		TimeLength timeLengthEnemy2ToMe = GetTimeLength(
 			pEnemyPlayer2Data->pos.x,
 			pEnemyPlayer2Data->pos.y,
 			pEnemyPlayer2Data->angle,
 			pCurrentMyPlayerData->pos.x,
 			pCurrentMyPlayerData->pos.y
 		);
-		fprintf(logFp, "vs2:		%d - %d\n", timeLengthMtoE2.turn, timeLengthE2toM.turn);
+		fprintf(logFp, "vs2:		%d - %d\n", timeLengthMeToEnemy2.turn, timeLengthEnemy2ToMe.turn);
 		// 有利な状態は追跡する
-		if (pEnemyPlayer2Data->stunTime == 0 && pEnemyPlayer2Data->coin >= pCurrentMyPlayerData->coin && timeLengthMtoE2.turn <= timeLengthE2toM.turn)
+		if (pEnemyPlayer2Data->stunTime == 0 && pEnemyPlayer2Data->coin >= pCurrentMyPlayerData->coin && timeLengthMeToEnemy2.turn <= timeLengthEnemy2ToMe.turn)
 		{
 			targetX = pEnemyPlayer2Data->pos.x;
 			targetY = pEnemyPlayer2Data->pos.y;
-			targetX += WALK_DIST_PER_TURN * PLAYER_COUNT * cos(timeLengthMtoE2.angle * M_PI / 180) * timeLengthMtoE2.turn;
-			targetY += WALK_DIST_PER_TURN * PLAYER_COUNT * sin(timeLengthMtoE2.angle * M_PI / 180) * timeLengthMtoE2.turn;
+			targetX += WALK_DIST_PER_TURN * PLAYER_COUNT * cos(timeLengthMeToEnemy2.angle * M_PI / 180) * timeLengthMeToEnemy2.turn;
+			targetY += WALK_DIST_PER_TURN * PLAYER_COUNT * sin(timeLengthMeToEnemy2.angle * M_PI / 180) * timeLengthMeToEnemy2.turn;
 		}
 	}
 
