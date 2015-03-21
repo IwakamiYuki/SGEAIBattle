@@ -15,6 +15,7 @@ public:
     GriphoneAI();
     virtual TimeLength GetTimeLength(float startX, float startY, int startAngle, float targetX, float targetY);
     virtual Command Update(TurnData turnData);
+    virtual float getLengthSquare(float x1, float y1, float x2, float y2);
 };
 
 #endif
