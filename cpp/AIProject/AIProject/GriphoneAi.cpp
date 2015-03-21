@@ -66,7 +66,7 @@ float GriphoneAI::getLengthSquare(float x1, float y1, float x2, float y2)
  */
 int GriphoneAI::adjustAngle(int angle)
 {
-  return (angle + 720 + 180) % 360 - 180;
+	return (angle + 720 + 180) % 360 - 180;
 
 }
 
