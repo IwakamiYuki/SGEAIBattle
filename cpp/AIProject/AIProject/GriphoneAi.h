@@ -24,6 +24,8 @@ public:
     static const int ALLOWANCE_DISTANCE = 10000;
     // 敵がこの数値以内なら攻撃を仕掛ける
     static const int ATTACK_THRESHOLD_TURN = 3;
+    // プレイヤーの半径
+    static const int PLAYER_RADIUS = 80;
 
     // getDiffAngle用
     // -180 ~ 180以内に収める
@@ -39,6 +41,8 @@ public:
     virtual int adjustAngle(int angle);
     virtual int adjustRange(int angle);
     virtual int getDiffAngle(int currentAngle, int x1, int y1, int x2, int y2, int option);
+    virtual bool getDiffAngle(int currentAngle, int x1, int y1, int x2, int y2);
+    virtual bool canAttack();
 };
 
 #endif

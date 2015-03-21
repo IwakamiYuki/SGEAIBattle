@@ -6,6 +6,7 @@ mv Replay/* Replay_back
 g++ cpp/AIProject/AIProject/GriphoneAi.cpp cpp/AIProject/AIProject/ai.cpp -o cpp/AIProject/AIProject/x.out
 # 実行
 java -jar arena.jar -cpp cpp/AIProject/AIProject/x.out -cpp getNearestCoin.out -cpp cpp/AIProject/DerivedData/AIProject/Build/Products/Debug/AIProject
+java -jar arena.jar -cpp cpp/AIProject/AIProject/x.out -cpp cpp/AIProject/AIProject/x.out -cpp cpp/AIProject/AIProject/x.out
 # JSONデータをPlayerにコピー
 find Replay -name "replay_*.json" -exec cp {} ~/Downloads/AiBattle/Player/Assets/Resources/GameData/replay.json \;
 # Unity再生

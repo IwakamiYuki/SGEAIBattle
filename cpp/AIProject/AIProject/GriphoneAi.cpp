@@ -96,6 +96,12 @@ int GriphoneAI::adjustRange(int angle)
 
 }
 
+bool GriphoneAI::canAttack()
+{
+  // TODO 実装
+  return true;
+}
+
 
 Command GriphoneAI::Update(TurnData turnData)
 {
@@ -171,13 +177,7 @@ Command GriphoneAI::Update(TurnData turnData)
 		  fprintf(logFp, "vs%d:		%d - %d\n", i + 1, timeLengthMeToEnemy1.turn, timeLengthEnemy1ToMe.turn);
 		  // ある程度近くにいたら かつ向きがあっていたら
 		  if(timeLengthMeToEnemy1.turn <= ATTACK_THRESHOLD_TURN &&
-		      getDiffAngle(
-		        pCurrentMyPlayerData->angle,
-		        pCurrentMyPlayerData->pos.x,
-		        pCurrentMyPlayerData->pos.y,
-			      pEnemyPlayerData[i]->pos.x,
-			      pEnemyPlayerData[i]->pos.y
-		        ) <= MAX_RANGE)
+		      canAttack()
 		  {
 			  command->action = GameAction::Attack;
 			  // 攻撃すべき状況か
@@ -205,11 +205,11 @@ Command GriphoneAI::Update(TurnData turnData)
 			bool bContinue = false;
 			for (int j_enemy = 0; j_enemy < PLAYER_COUNT - 1; j_enemy++) {
 			  // 敵とくっついてたら
-			  if (getLengthSquare(pCurrentMyPlayerData->pos.x, pCurrentMyPlayerData->pos.y, pEnemyPlayerData[j_enemy]->pos.x, pEnemyPlayerData[j_enemy]->pos.y) < 6400 * 2)
+			  if (getLengthSquare(pCurrentMyPlayerData->pos.x, pCurrentMyPlayerData->pos.y, pEnemyPlayerData[j_enemy]->pos.x, pEnemyPlayerData[j_enemy]->pos.y) < PLAYER_RADIUS * PLAYER_RADIUS * 2)
 			  {
 				  // 相手にぶつかる場合は除外
 				  if (
-					    getLengthSquare(pCurrentMyPlayerData->pos.x, pCurrentMyPlayerData->pos.y, pCurrentCoinData->pos.x, pCurrentCoinData->pos.y) + 6400 * 2 >
+					    getLengthSquare(pCurrentMyPlayerData->pos.x, pCurrentMyPlayerData->pos.y, pCurrentCoinData->pos.x, pCurrentCoinData->pos.y) + PLAYER_RADIUS * PLAYER_RADIUS * 2 >
 					    getLengthSquare(pEnemyPlayerData[j_enemy]->pos.x, pEnemyPlayerData[j_enemy]->pos.y, pCurrentCoinData->pos.x, pCurrentCoinData->pos.y
 						    )
 				     )
