@@ -12,6 +12,7 @@
 
 class GriphoneAI : public AIInterface {
 public:
+    // 角度の上限
     const int MAX_RANGE = 12;
     // 次の自分のターンまでの移動量
     const int MOVEMENT = 30;
