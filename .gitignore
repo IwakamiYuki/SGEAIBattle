@@ -1,3 +1,8 @@
 *.swp
 Log/*
 Replay/*
+a.out
+x.out
+Replay_back
+ai.log
+run.sh

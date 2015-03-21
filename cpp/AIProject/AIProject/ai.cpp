@@ -1,6 +1,7 @@
 #include<iostream>
 #include "AIInterface.h"
-#include "SampleAi.h"
+// #include "SampleAi.h"
+#include "GriphoneAi.h"
 
 using namespace std;
 
@@ -8,12 +9,12 @@ class AICore {
 public:
     TurnData input() {
         TurnData turnData = TurnData();
-        
+
         scanf("%d %d\n", &turn, &player_id);
         scanf("%d\n", &player_count);
         turnData.turn = turn;
         turnData.myId = player_id;
-        
+
         for (int i = 0; i < player_count; ++i) {
             PlayerData playerData = PlayerData();
             char stateChar[4];
@@ -38,6 +39,7 @@ public:
             turnData.playerList.push_back(playerData);
         }
         scanf("%d\n", &coin_count);
+        turnData.coinCount = coin_count;
         for (int i = 0; i < coin_count; ++i) {
             CoinData coinData = CoinData();
             scanf("%d %d %f %f %d %f %f\n",
@@ -50,13 +52,13 @@ public:
                   &coinData.releasePos.y
                   );
             turnData.coinList.push_back(coinData);
-            
+
         }
         scanf("%s", end_text);
-        
+
         return turnData;
     }
-    
+
     void output(Command command) {
         printf("%d %c\n", command.angle, (command.action == GameAction::Attack ? 'A' : 'N'));
         printf("END\n");
@@ -77,9 +79,10 @@ private:
 int main()
 {
     AICore* ai_core = new AICore();
-    AIInterface* ai = new SampleAI();
+    //AIInterface* ai = new SampleAI();
+    AIInterface* ai = new GriphoneAI();
 
-	
+
     int turn = 0;
     do {
         ai->logFp = fopen("ai.log", "a");

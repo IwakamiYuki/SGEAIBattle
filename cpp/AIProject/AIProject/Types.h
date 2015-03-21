@@ -22,7 +22,7 @@ class Point {
 public:
     float x;
     float y;
-    
+
     Point(){x = 0;y = 0;};
     Point(float x, float y) {
         this->x = x;
@@ -34,6 +34,11 @@ typedef struct Command {
     GameAction::GameAction action;
     int angle;
 }Command;
+typedef struct TimeLength {
+    GameAction::GameAction action;
+    int turn;
+    int angle;
+}TimeLength;
 
 class CoinData {
 public:
@@ -61,9 +66,10 @@ class TurnData {
 public:
     int turn;
     int myId;
+    int coinCount;
     std::vector<PlayerData> playerList;
     std::vector<CoinData> coinList;
-    
+
     PlayerData GetMyPlayerData() {
         return playerList.at(myId);
     }
