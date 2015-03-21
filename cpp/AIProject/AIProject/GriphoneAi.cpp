@@ -32,7 +32,7 @@ TimeLength GriphoneAI::GetTimeLength(float startX, float startY, int startAngle,
 		currentX += 30 * cos(currentAngle * M_PI / 180);
 		currentY += 30 * sin(currentAngle * M_PI / 180);
 
-		if ((currentX - targetX) * (currentX - targetX) + (currentY - targetY) * (currentY - targetY) < 1000)
+		if ((currentX - targetX) * (currentX - targetX) + (currentY - targetY) * (currentY - targetY) < 10000)
 		{
 			fprintf(logFp, "cul %d:	(%f,%f, %d)=>(%f,%f)	%d \n", i, currentX, currentY, currentAngle, targetX, targetY, ddAngle);
 			timeLength->turn = i;
@@ -161,7 +161,7 @@ Command GriphoneAI::Update(TurnData turnData) {
 			CoinData *pCurrentCoinData = &turnData.coinList[i];
 
       // 敵とくっついてたら
-      if (getLengthSquare(pCurrentMyPlayerData->pos.x, pCurrentMyPlayerData->pos.y, pEnemmyPlayer1Data->pos.x, pEnemmyPlayer1Data->pos.y) < 6400)
+      if (getLengthSquare(pCurrentMyPlayerData->pos.x, pCurrentMyPlayerData->pos.y, pEnemmyPlayer1Data->pos.x, pEnemmyPlayer1Data->pos.y) < 6400 * 2)
       {
         if (
           getLengthSquare(pCurrentMyPlayerData->pos.x, pCurrentMyPlayerData->pos.y, pCurrentCoinData->pos.x, pCurrentCoinData->pos.y) + 6400 >
@@ -173,7 +173,7 @@ Command GriphoneAI::Update(TurnData turnData) {
         }
       }
       // 敵とくっついてたら
-      if (getLengthSquare(pCurrentMyPlayerData->pos.x, pCurrentMyPlayerData->pos.y, pEnemmyPlayer2Data->pos.x, pEnemmyPlayer2Data->pos.y) < 6400)
+      if (getLengthSquare(pCurrentMyPlayerData->pos.x, pCurrentMyPlayerData->pos.y, pEnemmyPlayer2Data->pos.x, pEnemmyPlayer2Data->pos.y) < 6400 * 2)
       {
         if (
           getLengthSquare(pCurrentMyPlayerData->pos.x, pCurrentMyPlayerData->pos.y, pCurrentCoinData->pos.x, pCurrentCoinData->pos.y) + 6400  >
