@@ -29,7 +29,7 @@ TimeLength GriphoneAI::GetTimeLength(float startX, float startY, int startAngle,
 		int dAngle = 180 / M_PI * atan2f(targetY - currentY, targetX - currentX) - currentAngle;
 
 		// -180 ~ 180 に調整
-		dAngle = (dAngle + 720 + 180) % 360 - 180;
+		dAngle = adjustAngle(dAngle);
 		int ddAngle = dAngle;
 
 		// ±12度以内に収める
@@ -59,6 +59,15 @@ TimeLength GriphoneAI::GetTimeLength(float startX, float startY, int startAngle,
 float GriphoneAI::getLengthSquare(float x1, float y1, float x2, float y2)
 {
 	return (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2);
+}
+
+/**
+ * 与えられた角度を-180 ~ 180 に調整
+ */
+int GriphoneAI::adjustAngle(int angle)
+{
+  return (angle + 720 + 180) % 360 - 180;
+
 }
 
 Command GriphoneAI::Update(TurnData turnData)
@@ -342,7 +351,7 @@ Command GriphoneAI::Update(TurnData turnData)
 	angle = 180 / M_PI * atan2f( targetY - pCurrentMyPlayerData->pos.y, targetX - pCurrentMyPlayerData->pos.x) - pCurrentMyPlayerData->angle;
 
 	// -180 ~ 180 に調整
-	angle = (angle + 720 + 180) % 360 - 180;
+	angle = adjustAngle(angle);
 	fprintf(logFp, "%d\n", angle);
 
 	// ±12度以内に収める
