@@ -12,9 +12,22 @@
 
 class GriphoneAI : public AIInterface {
 public:
+    // 角度の上限
+    const int MAX_RANGE = 12;
+    // 次の自分のターンまでの移動量
+    const int WALK_DIST_PER_TURN = 10;
+    // 最大ターン数
+    const int MAX_TURN = 1800;
+    // プレイヤー数
+    const int PLAYER_COUNT = 3;
+    // 目的地とする距離
+    const int ALLOWANCE_DISTANCE = 10000;
+
     GriphoneAI();
     virtual TimeLength GetTimeLength(float startX, float startY, int startAngle, float targetX, float targetY);
     virtual Command Update(TurnData turnData);
+    virtual float getLengthSquare(float x1, float y1, float x2, float y2);
+    virtual int adjustAngle(int angle);
 };
 
 #endif
