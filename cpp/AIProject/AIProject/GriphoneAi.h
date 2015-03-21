@@ -16,6 +16,10 @@ public:
     const int MAX_RANGE = 12;
     // 次の自分のターンまでの移動量
     const int MOVEMENT = 30;
+    // 最大ターン数
+    const int MAX_TURN = 1800;
+    // プレイヤー数
+    const int PLAYER_COUNT = 3;
     GriphoneAI();
     virtual TimeLength GetTimeLength(float startX, float startY, int startAngle, float targetX, float targetY);
     virtual Command Update(TurnData turnData);

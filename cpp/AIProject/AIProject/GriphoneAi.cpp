@@ -20,9 +20,10 @@ TimeLength GriphoneAI::GetTimeLength(float startX, float startY, int startAngle,
 	int currentAngle = startAngle;
 
 
+  // 初期値は大きめの値にする
 	timeLength->turn = 6000;
 
-	for (int i = 1; i < 600; i++)
+	for (int i = 1; i < MAX_TURN / PLAYER_COUNT; i++)
 	{
 		// 現在の角度とターゲットまでの角度の差分
 		int dAngle = 180 / M_PI * atan2f(targetY - currentY, targetX - currentX) - currentAngle;
@@ -183,8 +184,8 @@ Command GriphoneAI::Update(TurnData turnData)
 	if (targetX < 0 && targetY < 0)
 	{
 		// 終了までに到着しないとダメ
-		int minTurn = 1800 - turnData.turn;
-		minTurn /= 3;
+		int minTurn = MAX_TURN - turnData.turn;
+		minTurn /= PLAYER_COUNT;
 		int minCoinIndex = -1;
 		for (int i = 0; i < turnData.coinCount; i++)
 		{
