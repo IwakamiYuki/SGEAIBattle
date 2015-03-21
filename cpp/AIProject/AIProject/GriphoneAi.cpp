@@ -1,14 +1,14 @@
 
-#include "Iwakami001AI.h"
+#include "GriphoneAI.h"
 
 using namespace std;
 
-Iwakami001AI::Iwakami001AI()
+GriphoneAI::GriphoneAI()
 {
 	srand((unsigned) time(NULL));
 }
 
-TimeLength Iwakami001AI::GetTimeLength(float startX, float startY, int startAngle, float targetX, float targetY)
+TimeLength GriphoneAI::GetTimeLength(float startX, float startY, int startAngle, float targetX, float targetY)
 {
 	TimeLength* timeLength = new TimeLength();
 
@@ -47,7 +47,7 @@ TimeLength Iwakami001AI::GetTimeLength(float startX, float startY, int startAngl
 	return *timeLength;
 }
 
-Command Iwakami001AI::Update(TurnData turnData) {
+Command GriphoneAI::Update(TurnData turnData) {
 	Command* command = new Command();
 
 	fprintf(logFp, "turn:%d********************\n", turnData.turn);
