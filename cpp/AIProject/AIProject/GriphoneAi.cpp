@@ -20,7 +20,7 @@ TimeLength GriphoneAI::GetTimeLength(float startX, float startY, int startAngle,
 	int currentAngle = startAngle;
 
 
-  // 初期値は大きめの値にする
+	// 初期値は大きめの値にする
 	timeLength->turn = 6000;
 
 	for (int i = 1; i < MAX_TURN / PLAYER_COUNT; i++)
