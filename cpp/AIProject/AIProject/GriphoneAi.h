@@ -12,6 +12,9 @@
 
 class GriphoneAI : public AIInterface {
 public:
+    const int MAX_RANGE = 12;
+    // 次の自分のターンまでの移動量
+    const int MOVEMENT = 30;
     GriphoneAI();
     virtual TimeLength GetTimeLength(float startX, float startY, int startAngle, float targetX, float targetY);
     virtual Command Update(TurnData turnData);
