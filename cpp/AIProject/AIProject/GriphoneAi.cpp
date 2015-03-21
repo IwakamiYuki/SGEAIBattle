@@ -400,7 +400,7 @@ Command GriphoneAI::Update(TurnData turnData)
         }
       }
     }
-    fprintf(logFp, "diffLength %f\n", minDiffLength);
+    fprintf(logFp, "run away : minDiffLnegth = %f\n", minDiffLength);
 	}
 
 	// 指定したターゲットに向かう
