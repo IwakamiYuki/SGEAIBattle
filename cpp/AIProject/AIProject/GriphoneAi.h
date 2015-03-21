@@ -15,7 +15,7 @@ public:
     // 角度の上限
     const int MAX_RANGE = 12;
     // 次の自分のターンまでの移動量
-    const int MOVEMENT = 30;
+    const int WALK_DIST_PER_TURN = 10;
     // 最大ターン数
     const int MAX_TURN = 1800;
     // プレイヤー数

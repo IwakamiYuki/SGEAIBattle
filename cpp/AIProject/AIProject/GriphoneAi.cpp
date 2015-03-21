@@ -38,8 +38,8 @@ TimeLength GriphoneAI::GetTimeLength(float startX, float startY, int startAngle,
 
 		// 移動する
 		currentAngle += dAngle;
-		currentX += MOVEMENT * cos(currentAngle * M_PI / 180);
-		currentY += MOVEMENT * sin(currentAngle * M_PI / 180);
+		currentX += WALK_DIST_PER_TURN * PLAYER_COUNT * cos(currentAngle * M_PI / 180);
+		currentY += WALK_DIST_PER_TURN * PLAYER_COUNT * sin(currentAngle * M_PI / 180);
 
 		// ある程度まで近づいたら目的地に到着とする
 		if (getLengthSquare(currentX, currentY, targetX, targetY) < ALLOWANCE_DISTANCE)
@@ -298,8 +298,8 @@ Command GriphoneAI::Update(TurnData turnData)
 		{
 			targetX = pEnemyPlayer1Data->pos.x;
 			targetY = pEnemyPlayer1Data->pos.y;
-			targetX += MOVEMENT * cos(timeLengthMtoE1.angle * M_PI / 180) * timeLengthMtoE1.turn;
-			targetY += MOVEMENT * sin(timeLengthMtoE1.angle * M_PI / 180) * timeLengthMtoE1.turn;
+			targetX += WALK_DIST_PER_TURN * PLAYER_COUNT * cos(timeLengthMtoE1.angle * M_PI / 180) * timeLengthMtoE1.turn;
+			targetY += WALK_DIST_PER_TURN * PLAYER_COUNT * sin(timeLengthMtoE1.angle * M_PI / 180) * timeLengthMtoE1.turn;
 		}
 	}
 
@@ -325,8 +325,8 @@ Command GriphoneAI::Update(TurnData turnData)
 		{
 			targetX = pEnemyPlayer2Data->pos.x;
 			targetY = pEnemyPlayer2Data->pos.y;
-			targetX += MOVEMENT * cos(timeLengthMtoE2.angle * M_PI / 180) * timeLengthMtoE2.turn;
-			targetY += MOVEMENT * sin(timeLengthMtoE2.angle * M_PI / 180) * timeLengthMtoE2.turn;
+			targetX += WALK_DIST_PER_TURN * PLAYER_COUNT * cos(timeLengthMtoE2.angle * M_PI / 180) * timeLengthMtoE2.turn;
+			targetY += WALK_DIST_PER_TURN * PLAYER_COUNT * sin(timeLengthMtoE2.angle * M_PI / 180) * timeLengthMtoE2.turn;
 		}
 	}
 
