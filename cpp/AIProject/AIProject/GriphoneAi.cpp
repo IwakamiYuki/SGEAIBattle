@@ -26,15 +26,11 @@ TimeLength GriphoneAI::GetTimeLength(float startX, float startY, int startAngle,
 	for (int i = 1; i < MAX_TURN / PLAYER_COUNT; i++)
 	{
 		// 現在の角度とターゲットまでの角度の差分
-		int dAngle = 180 / M_PI * atan2f(targetY - currentY, targetX - currentX) - currentAngle;
-
 		// -180 ~ 180 に調整
-		dAngle = adjustAngle(dAngle);
-		int ddAngle = dAngle;
+		int ddAngle = getDiffAngle(currentAngle, currentX, currentY, targetX, targetY, DIFF_ANGLE_WITHIN_180);
 
 		// ±12度以内に収める
-		if (dAngle > MAX_RANGE) dAngle = MAX_RANGE;
-		if (dAngle < -MAX_RANGE) dAngle = -MAX_RANGE;
+		int dAngle = adjustRange(ddAngle);
 
 		// 移動する
 		currentAngle += dAngle;
@@ -69,6 +65,37 @@ int GriphoneAI::adjustAngle(int angle)
 	return (angle + 720 + 180) % 360 - 180;
 
 }
+
+/**
+ * 2つのオブジェクトの位置から角度の差分を求める
+ * currentAngleはオブジェクト1の向いている向き
+ */
+int GriphoneAI::getDiffAngle(int currentAngle, int x1, int y1, int x2, int y2, int option = 0)
+{
+		int dAngle = 180 / M_PI * atan2f(y2 - y1, x2 - x1) - currentAngle;
+		if (option == DIFF_ANGLE_WITHIN_180 || option == DIFF_ANGLE_WITHIN_12) {
+		  // -180 ~ 180 に調整
+		  dAngle = adjustAngle(dAngle);
+		  if (option == DIFF_ANGLE_WITHIN_12) {
+		    // ±12度以内に収める
+		    dAngle = adjustRange(dAngle);
+		  }
+		}
+		return dAngle;
+}
+
+/**
+ * 与えられた角度を-12 ~ 12に調整
+ */
+int GriphoneAI::adjustRange(int angle)
+{
+	// ±12度以内に収める
+	if (angle > MAX_RANGE) angle = MAX_RANGE;
+	if (angle < -MAX_RANGE) angle = -MAX_RANGE;
+	return angle;
+
+}
+
 
 Command GriphoneAI::Update(TurnData turnData)
 {
@@ -140,8 +167,15 @@ Command GriphoneAI::Update(TurnData turnData)
 			pCurrentMyPlayerData->pos.y
 		);
 		fprintf(logFp, "vs1:		%d - %d\n", timeLengthMeToEnemy1.turn, timeLengthEnemy1ToMe.turn);
-		// ある程度近くにいたら
-		if (timeLengthMeToEnemy1.turn <= PLAYER_COUNT)
+		// ある程度近くにいたら かつ向きがあっていたら
+		if(timeLengthMeToEnemy1.turn <= ATTACK_THRESHOLD_TURN &&
+		    getDiffAngle(
+		      pCurrentMyPlayerData->angle,
+		      pCurrentMyPlayerData->pos.x,
+		      pCurrentMyPlayerData->pos.y,
+			    pEnemyPlayer1Data->pos.x,
+			    pEnemyPlayer1Data->pos.y
+		      ) <= MAX_RANGE)
 		{
 			command->action = GameAction::Attack;
 			// 攻撃すべき状況か
@@ -173,8 +207,15 @@ Command GriphoneAI::Update(TurnData turnData)
 			pCurrentMyPlayerData->pos.y
 		);
 		fprintf(logFp, "vs2:		%d - %d\n", timeLengthMeToEnemy2.turn, timeLengthEnemy2ToMe.turn);
-		// ある程度近くにいたら
-		if(timeLengthMeToEnemy2.turn <= PLAYER_COUNT)
+		// ある程度近くにいたら かつ向きがあっていたら
+		if(timeLengthMeToEnemy2.turn <= ATTACK_THRESHOLD_TURN &&
+		    getDiffAngle(
+		      pCurrentMyPlayerData->angle,
+		      pCurrentMyPlayerData->pos.x,
+		      pCurrentMyPlayerData->pos.y,
+			    pEnemyPlayer2Data->pos.x,
+			    pEnemyPlayer2Data->pos.y
+		      ) <= MAX_RANGE)
 		{
 			command->action = GameAction::Attack;
 			// 攻撃すべき状況か
@@ -351,12 +392,19 @@ Command GriphoneAI::Update(TurnData turnData)
 	angle = 180 / M_PI * atan2f( targetY - pCurrentMyPlayerData->pos.y, targetX - pCurrentMyPlayerData->pos.x) - pCurrentMyPlayerData->angle;
 
 	// -180 ~ 180 に調整
-	angle = adjustAngle(angle);
+	angle = getDiffAngle(
+	    pCurrentMyPlayerData->angle,
+	    pCurrentMyPlayerData->pos.x,
+	    pCurrentMyPlayerData->pos.y,
+	    targetX,
+	    targetY,
+	    DIFF_ANGLE_WITHIN_180
+	    );
+
 	fprintf(logFp, "%d\n", angle);
 
 	// ±12度以内に収める
-	if (angle > MAX_RANGE) angle = MAX_RANGE;
-	if (angle < -MAX_RANGE) angle = -MAX_RANGE;
+	angle = adjustRange(angle);
 
 	command->angle = angle;
 
@@ -374,4 +422,3 @@ Command GriphoneAI::Update(TurnData turnData)
 
 	return *command;
 }
-
