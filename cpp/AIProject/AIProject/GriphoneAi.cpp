@@ -132,7 +132,7 @@ Command GriphoneAI::Update(TurnData turnData)
 		);
 		fprintf(logFp, "vs1:		%d - %d\n", timeLengthMtoE1.turn, timeLengthE1toM.turn);
 		// ある程度近くにいたら
-		if (timeLengthMtoE1.turn <=3)
+		if (timeLengthMtoE1.turn <= PLAYER_COUNT)
 		{
 			command->action = GameAction::Attack;
 			// 攻撃すべき状況か
