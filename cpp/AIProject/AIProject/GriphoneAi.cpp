@@ -399,8 +399,8 @@ Command GriphoneAI::Update(TurnData turnData)
           targetY = y;
         }
       }
-      fprintf(logFp, "diffLength %f\n", minDiffLength);
     }
+    fprintf(logFp, "diffLength %f\n", minDiffLength);
 	}
 
 	// 指定したターゲットに向かう
