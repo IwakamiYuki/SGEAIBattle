@@ -34,7 +34,7 @@ TimeLength Iwakami001AI::GetTimeLength(float startX, float startY, int startAngl
 
 		if (i < 100)
 			fprintf(logFp, "cul %d:	(%f,%f, %d)=>(%f,%f)	%d \n", i, currentX, currentY, currentAngle, targetX, targetY, ddAngle);
-		if ((currentX - targetX) * (currentX - targetX) + (currentY - targetY) * (currentY - targetY) < 400)
+		if ((currentX - targetX) * (currentX - targetX) + (currentY - targetY) * (currentY - targetY) < 1000)
 		{
 			timeLength->turn = i;
 			break;
@@ -216,7 +216,7 @@ Command Iwakami001AI::Update(TurnData turnData) {
 		}
 	}
 
-	if (targetX < 0 && targetY < 0)
+	if (targetX < 0 && targetY < 0 && pEnemmyPlayer1Data->coin >= pEnemmyPlayer2Data->coin)
 	{
 		TimeLength timeLengthMtoE1 = GetTimeLength(
 			pCurrentMyPlayerData->pos.x,
@@ -240,7 +240,7 @@ Command Iwakami001AI::Update(TurnData turnData) {
 		}
 	}
 
-	if (targetX < 0 && targetY < 0)
+	if (targetX < 0 && targetY < 0 && pEnemmyPlayer2Data->coin >= pEnemmyPlayer1Data->coin)
 	{
 		TimeLength timeLengthMtoE2 = GetTimeLength(
 			pCurrentMyPlayerData->pos.x,
