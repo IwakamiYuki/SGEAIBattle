@@ -20,6 +20,9 @@ public:
     const int MAX_TURN = 1800;
     // プレイヤー数
     const int PLAYER_COUNT = 3;
+    // 目的地とする距離
+    const int ALLOWANCE_DISTANCE = 10000;
+
     GriphoneAI();
     virtual TimeLength GetTimeLength(float startX, float startY, int startAngle, float targetX, float targetY);
     virtual Command Update(TurnData turnData);

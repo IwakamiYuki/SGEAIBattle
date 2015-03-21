@@ -42,7 +42,7 @@ TimeLength GriphoneAI::GetTimeLength(float startX, float startY, int startAngle,
 		currentY += MOVEMENT * sin(currentAngle * M_PI / 180);
 
 		// ある程度まで近づいたら目的地に到着とする
-		if (getLengthSquare(currentX, currentY, targetX, targetY) < 10000)
+		if (getLengthSquare(currentX, currentY, targetX, targetY) < ALLOWANCE_DISTANCE)
 		{
 			fprintf(logFp, "cul %d:	(%f,%f, %d)=>(%f,%f)	%d \n", i, currentX, currentY, currentAngle, targetX, targetY, ddAngle);
 			timeLength->turn = i;
