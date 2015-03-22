@@ -333,7 +333,7 @@ Command GriphoneAI::Update(TurnData turnData)
 	}
 
 	// 追跡する
-	if (targetX < 0 && targetY < 0 && pEnemyPlayer1Data->coin >= pEnemyPlayer2Data->coin)
+	if (targetX < 0 && targetY < 0 && pEnemyPlayer1Data->coin > pEnemyPlayer2Data->coin)
 	{
 		TimeLength timeLengthMeToEnemy1 = GetTimeLength(
 			pCurrentMyPlayerData->pos.x,
@@ -360,7 +360,7 @@ Command GriphoneAI::Update(TurnData turnData)
 		}
 	}
 
-	if (targetX < 0 && targetY < 0 && pEnemyPlayer2Data->coin >= pEnemyPlayer1Data->coin)
+	if (targetX < 0 && targetY < 0 && pEnemyPlayer2Data->coin > pEnemyPlayer1Data->coin)
 	{
 		TimeLength timeLengthMeToEnemy2 = GetTimeLength(
 			pCurrentMyPlayerData->pos.x,
