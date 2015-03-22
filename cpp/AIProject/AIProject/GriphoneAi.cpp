@@ -282,7 +282,7 @@ Command GriphoneAI::Update(TurnData turnData)
           if (length < 100000000) // 必要ないかもだからすごい大きな値にしている
           {
             // 距離の逆数をたす
-            nearCoinInverseLength += 1000 / length;
+            nearCoinInverseLength += NEAR_COIN_INVERSE_LENGTH_FACTOR / length;
           }
         }
         // 評価が高いほどマイナス分が大きくなりよいコインとなる

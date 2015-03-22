@@ -22,6 +22,8 @@ public:
     const int PLAYER_COUNT = 3;
     // 目的地とする距離
     const int ALLOWANCE_DISTANCE = 10000;
+    // 近くのコインまでの距離の逆数にかける係数。ターン距離と比較に用いる
+    const int NEAR_COIN_INVERSE_LENGTH_FACTOR = 1000;
 
     GriphoneAI();
     virtual TimeLength GetTimeLength(float startX, float startY, int startAngle, float targetX, float targetY);
