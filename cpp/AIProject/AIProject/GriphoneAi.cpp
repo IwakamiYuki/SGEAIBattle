@@ -351,7 +351,7 @@ Command GriphoneAI::Update(TurnData turnData)
 		);
 		fprintf(logFp, "vs1:		%d - %d\n", timeLengthMeToEnemy1.turn, timeLengthEnemy1ToMe.turn);
 		// 有利な状態は追跡する
-		if (pEnemyPlayer1Data->stunTime == 0 && pEnemyPlayer1Data->coin >= pCurrentMyPlayerData->coin && timeLengthMeToEnemy1.turn <= timeLengthEnemy1ToMe.turn)
+		if (pEnemyPlayer1Data->stunTime == 0 && pEnemyPlayer1Data->coin > pCurrentMyPlayerData->coin && timeLengthMeToEnemy1.turn <= timeLengthEnemy1ToMe.turn)
 		{
 			targetX = pEnemyPlayer1Data->pos.x;
 			targetY = pEnemyPlayer1Data->pos.y;
@@ -378,7 +378,7 @@ Command GriphoneAI::Update(TurnData turnData)
 		);
 		fprintf(logFp, "vs2:		%d - %d\n", timeLengthMeToEnemy2.turn, timeLengthEnemy2ToMe.turn);
 		// 有利な状態は追跡する
-		if (pEnemyPlayer2Data->stunTime == 0 && pEnemyPlayer2Data->coin >= pCurrentMyPlayerData->coin && timeLengthMeToEnemy2.turn <= timeLengthEnemy2ToMe.turn)
+		if (pEnemyPlayer2Data->stunTime == 0 && pEnemyPlayer2Data->coin > pCurrentMyPlayerData->coin && timeLengthMeToEnemy2.turn <= timeLengthEnemy2ToMe.turn)
 		{
 			targetX = pEnemyPlayer2Data->pos.x;
 			targetY = pEnemyPlayer2Data->pos.y;
