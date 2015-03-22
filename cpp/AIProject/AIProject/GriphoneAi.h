@@ -29,6 +29,8 @@ public:
     static const int ATTACK_THRESHOLD_TURN = 3;
     // プレイヤーの半径
     static const int PLAYER_RADIUS = 80;
+    // スタン攻撃の割合
+    static const int STUN_ATTACK_PERCENTAGE = 66;
 
     // getDiffAngle用
     // -180 ~ 180以内に収める

@@ -112,6 +112,8 @@ bool GriphoneAI::canAttack(double sStartX, double sStartY, double angle, int coo
   double distance = getDistanceLinePoint(sStartX, sStartY, angle, PLAYER_RADIUS * 2, Px, Py);
   // 相手との距離と相手が全力で逃げた場合の量
   return distance + EPSILON <= 2 * PLAYER_RADIUS;
+  // スタン攻撃のみ行う
+  // return distance + EPSILON < PLAYER_RADIUS + (PLAYER_RADIUS * STUN_ATTACK_PERCENTAGE / 100);
   // return true;
 }
 
