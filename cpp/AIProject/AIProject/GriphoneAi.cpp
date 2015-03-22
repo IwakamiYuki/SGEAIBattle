@@ -47,6 +47,8 @@ TimeLength GriphoneAI::GetTimeLength(float startX, float startY, int startAngle,
 			fprintf(logFp, "cul %d:	(%f,%f, %d)=>(%f,%f)	%d \n", i, currentX, currentY, currentAngle, targetX, targetY, ddAngle);
 			timeLength->turn = i;
 			timeLength->angle = currentAngle;
+			timeLength->pos.x = currentX;
+			timeLength->pos.y = currentY;
 			break;
 		}
 	}
