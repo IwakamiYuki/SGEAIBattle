@@ -7,3 +7,5 @@ Replay_back
 ai.log
 run.sh
 cpp/AIProject/AIProject.xcodeproj/*
+battle.sh
+battles.sh
