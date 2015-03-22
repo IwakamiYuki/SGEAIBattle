@@ -10,6 +10,9 @@
 #include "Types.h"
 #include "AIInterface.h"
 
+// なんかstatic constで定義すると怒られるorz
+#define EPSILON 1.0e-9
+
 class GriphoneAI : public AIInterface {
 public:
     // 角度の上限
@@ -41,8 +44,8 @@ public:
     virtual int adjustAngle(int angle);
     virtual int adjustRange(int angle);
     virtual int getDiffAngle(int currentAngle, int x1, int y1, int x2, int y2, int option);
-    virtual bool getDiffAngle(int currentAngle, int x1, int y1, int x2, int y2);
-    virtual bool canAttack();
+    virtual bool canAttack(double sStartX, double sStartY, double angle, double Px, double Py);
+    virtual double getDistanceLinePoint(double sStartX, double sStartY, double angle, int scalar, double Px, double Py);
 };
 
 #endif

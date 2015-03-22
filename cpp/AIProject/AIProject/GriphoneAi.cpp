@@ -1,5 +1,6 @@
 
 #include "GriphoneAI.h"
+#include "Geometry.h"
 
 using namespace std;
 
@@ -96,10 +97,20 @@ int GriphoneAI::adjustRange(int angle)
 
 }
 
-bool GriphoneAI::canAttack()
+bool GriphoneAI::canAttack(double sStartX, double sStartY, double angle, double Px, double Py)
 {
-  // TODO 実装
-  return true;
+  double distance = getDistanceLinePoint(sStartX, sStartY, angle, PLAYER_RADIUS * 2, Px, Py);
+  return distance + EPSILON <= 2 * PLAYER_RADIUS;
+}
+
+//線分と点の距離
+double GriphoneAI::getDistanceLinePoint(double sStartX, double sStartY, double angle, int scalar, double Px, double Py) {
+  pt point = pt(Px, Py);
+  double radian = angle * M_PI / 180;
+  // 終点の座標を求める
+  pt endPoint = pt(scalar * cos(radian), scalar * sin(radian));
+  line s = line(pt(sStartX, sStartY), endPoint);
+  return distanceSP(s, point);
 }
 
 
@@ -177,7 +188,14 @@ Command GriphoneAI::Update(TurnData turnData)
 		  fprintf(logFp, "vs%d:		%d - %d\n", i + 1, timeLengthMeToEnemy1.turn, timeLengthEnemy1ToMe.turn);
 		  // ある程度近くにいたら かつ向きがあっていたら
 		  if(timeLengthMeToEnemy1.turn <= ATTACK_THRESHOLD_TURN &&
-		      canAttack()
+		      canAttack(
+			    pCurrentMyPlayerData->pos.x,
+			    pCurrentMyPlayerData->pos.y,
+			    pCurrentMyPlayerData->angle,
+			    pEnemyPlayerData[i]->pos.x,
+			    pEnemyPlayerData[i]->pos.y
+		        )
+		      )
 		  {
 			  command->action = GameAction::Attack;
 			  // 攻撃すべき状況か
