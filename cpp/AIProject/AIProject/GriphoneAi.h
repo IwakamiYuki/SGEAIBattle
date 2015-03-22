@@ -40,6 +40,8 @@ public:
 
     // 近くのコインまでの距離の逆数にかける係数。ターン距離と比較に用いる
     static const int NEAR_COIN_INVERSE_LENGTH_FACTOR = 1000;
+    // 攻撃時の許容誤差
+    static const int ALLOWANCE_ATTACK_DISTANCE = 1000;
 
     GriphoneAI();
     virtual TimeLength GetTimeLength(float startX, float startY, int startAngle, float targetX, float targetY);

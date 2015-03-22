@@ -114,19 +114,14 @@ bool GriphoneAI::canAttack(double sStartX, double sStartY, double angle, int coo
   // fprintf(logLocal, "Angle clear. => %d\n", diffAngle);
 
   double distance = getAttackDistance(sStartX, sStartY, angle, PLAYER_RADIUS * 2, Px, Py);
-  // fprintf(logLocal, "distance is %f\n", distance);
-  // fprintf(logLocal, "thresh is %f\n", (PLAYER_RADIUS * STUN_ATTACK_PERCENTAGE / 100.0) * (PLAYER_RADIUS * STUN_ATTACK_PERCENTAGE / 100.0));
   // 相手との距離と相手が全力で逃げた場合の量
   // return distance + EPSILON <= 2 * PLAYER_RADIUS;
-  //
+  double threshold = (PLAYER_RADIUS * STUN_ATTACK_PERCENTAGE / 100.0);
+  // double threshold = (PLAYER_RADIUS);
   // スタン攻撃のみ行う
-  bool result = distance + EPSILON < (PLAYER_RADIUS * STUN_ATTACK_PERCENTAGE / 100.0) * (PLAYER_RADIUS * STUN_ATTACK_PERCENTAGE / 100.0);
-
-  // if (result){
-    // fprintf(logLocal, "attack!!");
-  // }
+  // bool result = distance + EPSILON < threshold * threshold + ALLOWANCE_ATTACK_DISTANCE;
+  bool result = distance + EPSILON < threshold * threshold;
   return result;
-    // return true;
 }
 
 /*
@@ -429,9 +424,9 @@ Command GriphoneAI::Update(TurnData turnData)
 		targetY = 500.0;
     float minDiffLength = 10000000;
     // いろんな点で試してみる
-    for (int x = 0; x <= 1000; x += 50)
+    for (int x = 0; x <= 1000; x += 5)
     {
-      for (int y = 0; y <= 1000; y += 50)
+      for (int y = 0; y <= 1000; y += 5)
       {
         // 目的地までのターン距離を算出
         TimeLength timeLengthMeToTarget = GetTimeLength(

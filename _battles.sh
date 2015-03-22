@@ -1,6 +1,6 @@
 #!/bin/sh
 i=1
-while [ $i -le 30 ];
+while [ $i -le 100 ];
 do
   echo "round $i" >&2
   # ./run.sh
