@@ -217,7 +217,7 @@ Command GriphoneAI::Update(TurnData turnData)
 			    command->action = GameAction::Attack;
 				  targetX = pEnemyPlayerData[i]->pos.x;
 				  targetY = pEnemyPlayerData[i]->pos.y;
-				  fprintf(logFp, "attack %d\n", i + 1);
+				  fprintf(logFp, "attack to %d\n", i + 1);
 			  }
 		  }
 	  }
