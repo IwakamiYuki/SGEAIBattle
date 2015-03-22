@@ -229,6 +229,19 @@ Command GriphoneAI::Update(TurnData turnData)
 					continue;
 				}
 			}
+      // 敵の近くはやめる
+			if (getLengthSquare(pCurrentMyPlayerData->pos.x, pCurrentMyPlayerData->pos.y, pCurrentCoinData->pos.x, pCurrentCoinData->pos.y) >
+        getLengthSquare(pEnemyPlayer1Data->pos.x, pEnemyPlayer1Data->pos.y, pCurrentCoinData->pos.x, pCurrentCoinData->pos.y)
+          )
+      {
+        continue;
+      }
+			if (getLengthSquare(pCurrentMyPlayerData->pos.x, pCurrentMyPlayerData->pos.y, pCurrentCoinData->pos.x, pCurrentCoinData->pos.y) >
+        getLengthSquare(pEnemyPlayer2Data->pos.x, pEnemyPlayer2Data->pos.y, pCurrentCoinData->pos.x, pCurrentCoinData->pos.y)
+        )
+      {
+        continue;
+      }
 
 			// ターン距離を取得する
 			TimeLength timeLength = GetTimeLength(
