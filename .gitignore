@@ -6,6 +6,7 @@ x.out
 Replay_back
 ai.log
 run.sh
+start.sh
 cpp/AIProject/AIProject.xcodeproj/*
 battle.sh
 battles.sh
