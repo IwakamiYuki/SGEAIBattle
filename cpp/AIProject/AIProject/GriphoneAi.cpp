@@ -101,31 +101,53 @@ int GriphoneAI::adjustRange(int angle)
 
 bool GriphoneAI::canAttack(double sStartX, double sStartY, double angle, int coolTime, int stunTime, double Px, double Py)
 {
+  // fprintf(logLocal, "canAttack, sx=%f, sY=%f, angle=%f, cool=%d, stun=%d, Px=%f, Py=%f\n", sStartX, sStartY, angle, coolTime, stunTime, Px, Py);
 	// クールタイム中は攻撃できない
   if (coolTime > 0) return false;
+  // fprintf(logLocal, "coolTime clear.\n");
   // スタンタイム中は攻撃出来ない
   if (stunTime > 0) return false;
+  // fprintf(logLocal, "stunTime clear.\n");
   // 角度が足らなければ攻撃出来ない
-  int diffAngle = getDiffAngle(angle, sStartX, sStartY, Px, Py);
-  if (abs(diffAngle) > MAX_RANGE) return false;
+  // int diffAngle = getDiffAngle(angle, sStartX, sStartY, Px, Py);
+  // if (abs(diffAngle) > MAX_RANGE) return false;
+  // fprintf(logLocal, "Angle clear. => %d\n", diffAngle);
 
-  double distance = getDistanceLinePoint(sStartX, sStartY, angle, PLAYER_RADIUS * 2, Px, Py);
+  double distance = getAttackDistance(sStartX, sStartY, angle, PLAYER_RADIUS * 2, Px, Py);
+  // fprintf(logLocal, "distance is %f\n", distance);
+  // fprintf(logLocal, "thresh is %f\n", (PLAYER_RADIUS * STUN_ATTACK_PERCENTAGE / 100.0) * (PLAYER_RADIUS * STUN_ATTACK_PERCENTAGE / 100.0));
   // 相手との距離と相手が全力で逃げた場合の量
-  return distance + EPSILON <= 2 * PLAYER_RADIUS;
+  // return distance + EPSILON <= 2 * PLAYER_RADIUS;
+  //
   // スタン攻撃のみ行う
-  // return distance + EPSILON < PLAYER_RADIUS + (PLAYER_RADIUS * STUN_ATTACK_PERCENTAGE / 100);
-  // return true;
+  bool result = distance + EPSILON < (PLAYER_RADIUS * STUN_ATTACK_PERCENTAGE / 100.0) * (PLAYER_RADIUS * STUN_ATTACK_PERCENTAGE / 100.0);
+
+  // if (result){
+    // fprintf(logLocal, "attack!!");
+  // }
+  return result;
+    // return true;
+}
+
+/*
+ * ベクトルの終点と目的地点の距離を求める
+ * */
+double GriphoneAI::getAttackDistance(double sStartX, double sStartY, double angle, int scalar, double Px, double Py){
+  double radian = angle * M_PI / 180;
+  double endX = scalar * cos(radian) + sStartX;
+  double endY = scalar * sin(radian) + sStartY;
+  return getLengthSquare(endX, endY, Px, Py);
 }
 
 //線分と点の距離
-double GriphoneAI::getDistanceLinePoint(double sStartX, double sStartY, double angle, int scalar, double Px, double Py) {
-  pt point = pt(Px, Py);
-  double radian = angle * M_PI / 180;
-  // 終点の座標を求める
-  pt endPoint = pt(scalar * cos(radian), scalar * sin(radian));
-  line s = line(pt(sStartX, sStartY), endPoint);
-  return distanceSP(s, point);
-}
+// double GriphoneAI::getDistanceLinePoint(double sStartX, double sStartY, double angle, int scalar, double Px, double Py) {
+  // pt point = pt(Px, Py);
+  // double radian = angle * M_PI / 180;
+  // // 終点の座標を求める
+  // pt endPoint = pt(scalar * cos(radian), scalar * sin(radian));
+  // line s = line(pt(sStartX, sStartY), endPoint);
+  // return distanceSP(s, point);
+// }
 
 
 Command GriphoneAI::Update(TurnData turnData)

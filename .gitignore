@@ -10,3 +10,4 @@ start.sh
 cpp/AIProject/AIProject.xcodeproj/*
 battle.sh
 battles.sh
+attack.log
