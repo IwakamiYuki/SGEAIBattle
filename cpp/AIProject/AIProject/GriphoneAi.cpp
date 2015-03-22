@@ -266,6 +266,7 @@ Command GriphoneAI::Update(TurnData turnData)
       // コインが集まっているほど評価値を良くする
       if (timeLength.turn < MAX_TURN)
       {
+        float nearCoinInverseLength = 0;
         for (int j = 0; j < turnData.coinCount; j++)
         {
           if (i == j) continue;
@@ -276,9 +277,15 @@ Command GriphoneAI::Update(TurnData turnData)
             pTargetCoinData->pos.x,
             pTargetCoinData->pos.y
           );
-          if (length < 100000)
-            timeLength.turn -= 10;
+          if (length < 100000000) // 必要ないかもだからすごい大きな値にしている
+          {
+            // 距離の逆数をたす
+            nearCoinInverseLength += 1000 / length;
+          }
         }
+        // 評価が高いほどマイナス分が大きくなりよいコインとなる
+        timeLength.turn -= nearCoinInverseLength;
+        fprintf(logFp, "near coin point : %f\n", nearCoinInverseLength);
       }
 
 			// より近いコインかどうか判定
