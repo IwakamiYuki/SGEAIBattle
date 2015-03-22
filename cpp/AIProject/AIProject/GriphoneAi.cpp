@@ -229,6 +229,19 @@ Command GriphoneAI::Update(TurnData turnData)
 					continue;
 				}
 			}
+			// 敵の近くはやめる
+			if (getLengthSquare(pCurrentMyPlayerData->pos.x, pCurrentMyPlayerData->pos.y, pCurrentCoinData->pos.x, pCurrentCoinData->pos.y) >
+				getLengthSquare(pEnemyPlayer1Data->pos.x, pEnemyPlayer1Data->pos.y, pCurrentCoinData->pos.x, pCurrentCoinData->pos.y)
+					)
+			{
+				continue;
+			}
+			if (getLengthSquare(pCurrentMyPlayerData->pos.x, pCurrentMyPlayerData->pos.y, pCurrentCoinData->pos.x, pCurrentCoinData->pos.y) >
+				getLengthSquare(pEnemyPlayer2Data->pos.x, pEnemyPlayer2Data->pos.y, pCurrentCoinData->pos.x, pCurrentCoinData->pos.y)
+				)
+			{
+				continue;
+			}
 
 			// ターン距離を取得する
 			TimeLength timeLength = GetTimeLength(
@@ -265,52 +278,52 @@ Command GriphoneAI::Update(TurnData turnData)
 				continue;
 			}
 
-      // コインが集まっているほど評価値を良くする
-      if (timeLength.turn < MAX_TURN)
-      {
-        float nearCoinInverseLength = 0;
-        for (int j = 0; j < turnData.coinCount; j++)
-        {
-          if (i == j) continue;
-          CoinData *pTargetCoinData = &turnData.coinList[j];
-          float length = getLengthSquare(
-            pCurrentCoinData->pos.x,
-            pCurrentCoinData->pos.y,
-            pTargetCoinData->pos.x,
-            pTargetCoinData->pos.y
-          );
-          if (length < 100000000) // 必要ないかもだからすごい大きな値にしている
-          {
-            // 距離の逆数をたす
-            nearCoinInverseLength += NEAR_COIN_INVERSE_LENGTH_FACTOR / length;
-          }
-        }
-        // 評価が高いほどマイナス分が大きくなりよいコインとなる
-        timeLength.turn -= nearCoinInverseLength;
-        fprintf(logFp, "near coin point : %f\n", nearCoinInverseLength);
+			// コインが集まっているほど評価値を良くする
+			if (timeLength.turn < MAX_TURN)
+			{
+				float nearCoinInverseLength = 0;
+				for (int j = 0; j < turnData.coinCount; j++)
+				{
+					if (i == j) continue;
+					CoinData *pTargetCoinData = &turnData.coinList[j];
+					float length = getLengthSquare(
+						pCurrentCoinData->pos.x,
+						pCurrentCoinData->pos.y,
+						pTargetCoinData->pos.x,
+						pTargetCoinData->pos.y
+					);
+					if (length < 100000000) // 必要ないかもだからすごい大きな値にしている
+					{
+						// 距離の逆数をたす
+						nearCoinInverseLength += NEAR_COIN_INVERSE_LENGTH_FACTOR / length;
+					}
+				}
+				// 評価が高いほどマイナス分が大きくなりよいコインとなる
+				timeLength.turn -= nearCoinInverseLength;
+				fprintf(logFp, "near coin point : %f\n", nearCoinInverseLength);
 
 
-        // このコインを取った後に取りやすいコインがいくつあるか
-        int nextNearCoinCount = 0;
-        for (int j = 0; j < turnData.coinCount; j++)
-        {
-          if (i == j) continue;
-          CoinData *pTargetCoinData = &turnData.coinList[j];
-          TimeLength timeLengthToAnotherCoin = GetTimeLength(
-            timeLength.pos.x,
-            timeLength.pos.y,
-            timeLength.angle,
-            pTargetCoinData->pos.x,
-            pTargetCoinData->pos.y
-          );
-          if (timeLengthToAnotherCoin.turn < 10)
-          {
-            nextNearCoinCount++;
-          }
-        }
-        timeLength.turn -= nextNearCoinCount;
-        fprintf(logFp, "next near coin count : %d\n", nextNearCoinCount);
-      }
+				// このコインを取った後に取りやすいコインがいくつあるか
+				int nextNearCoinCount = 0;
+				for (int j = 0; j < turnData.coinCount; j++)
+				{
+					if (i == j) continue;
+					CoinData *pTargetCoinData = &turnData.coinList[j];
+					TimeLength timeLengthToAnotherCoin = GetTimeLength(
+						timeLength.pos.x,
+						timeLength.pos.y,
+						timeLength.angle,
+						pTargetCoinData->pos.x,
+						pTargetCoinData->pos.y
+					);
+					if (timeLengthToAnotherCoin.turn < 10)
+					{
+						nextNearCoinCount++;
+					}
+				}
+				timeLength.turn -= nextNearCoinCount;
+				fprintf(logFp, "next near coin count : %d\n", nextNearCoinCount);
+			}
 
 			// より近いコインかどうか判定
 			if (timeLength.turn < minTurn)
@@ -333,7 +346,7 @@ Command GriphoneAI::Update(TurnData turnData)
 	}
 
 	// 追跡する
-	if (targetX < 0 && targetY < 0 && pEnemyPlayer1Data->coin >= pEnemyPlayer2Data->coin)
+	if (targetX < 0 && targetY < 0 && pEnemyPlayer1Data->coin > pEnemyPlayer2Data->coin)
 	{
 		TimeLength timeLengthMeToEnemy1 = GetTimeLength(
 			pCurrentMyPlayerData->pos.x,
@@ -360,7 +373,7 @@ Command GriphoneAI::Update(TurnData turnData)
 		}
 	}
 
-	if (targetX < 0 && targetY < 0 && pEnemyPlayer2Data->coin >= pEnemyPlayer1Data->coin)
+	if (targetX < 0 && targetY < 0 && pEnemyPlayer2Data->coin > pEnemyPlayer1Data->coin)
 	{
 		TimeLength timeLengthMeToEnemy2 = GetTimeLength(
 			pCurrentMyPlayerData->pos.x,
@@ -392,63 +405,63 @@ Command GriphoneAI::Update(TurnData turnData)
 	{
 		targetX = 500.0;
 		targetY = 500.0;
-    float minDiffLength = 10000000;
-    // いろんな点で試してみる
-    for (int x = 0; x <= 1000; x += 50)
-    {
-      for (int y = 0; y <= 1000; y += 50)
-      {
-        // 目的地までのターン距離を算出
-        TimeLength timeLengthMeToTarget = GetTimeLength(
-          pCurrentMyPlayerData->pos.x,
-          pCurrentMyPlayerData->pos.y,
-          pCurrentMyPlayerData->angle,
-          x, y
-        );
-        TimeLength timeLengthEnemy1ToTarget = GetTimeLength(
-          pEnemyPlayer1Data->pos.x,
-          pEnemyPlayer1Data->pos.y,
-          pEnemyPlayer1Data->angle,
-          x, y
-        );
-        TimeLength timeLengthEnemy2ToTarget = GetTimeLength(
-          pEnemyPlayer2Data->pos.x,
-          pEnemyPlayer2Data->pos.y,
-          pEnemyPlayer2Data->angle,
-          x, y
-        );
+		float minDiffLength = 10000000;
+		// いろんな点で試してみる
+		for (int x = 0; x <= 1000; x += 50)
+		{
+			for (int y = 0; y <= 1000; y += 50)
+			{
+				// 目的地までのターン距離を算出
+				TimeLength timeLengthMeToTarget = GetTimeLength(
+					pCurrentMyPlayerData->pos.x,
+					pCurrentMyPlayerData->pos.y,
+					pCurrentMyPlayerData->angle,
+					x, y
+				);
+				TimeLength timeLengthEnemy1ToTarget = GetTimeLength(
+					pEnemyPlayer1Data->pos.x,
+					pEnemyPlayer1Data->pos.y,
+					pEnemyPlayer1Data->angle,
+					x, y
+				);
+				TimeLength timeLengthEnemy2ToTarget = GetTimeLength(
+					pEnemyPlayer2Data->pos.x,
+					pEnemyPlayer2Data->pos.y,
+					pEnemyPlayer2Data->angle,
+					x, y
+				);
 
-        // 不利な目的地は選択しない
-        if (timeLengthMeToTarget.turn > timeLengthEnemy1ToTarget.turn || timeLengthMeToTarget.turn > timeLengthEnemy2ToTarget.turn)
-        {
-          continue;
-        }
+				// 不利な目的地は選択しない
+				if (timeLengthMeToTarget.turn > timeLengthEnemy1ToTarget.turn || timeLengthMeToTarget.turn > timeLengthEnemy2ToTarget.turn)
+				{
+					continue;
+				}
 
-        // 敵より奥の目標値は除外
-        if (
+				// 敵より奥の目標値は除外
+				if (
 					getLengthSquare(pCurrentMyPlayerData->pos.x, pCurrentMyPlayerData->pos.y, x, y) + 6400 * 2	>
 					getLengthSquare(pEnemyPlayer1Data->pos.x, pEnemyPlayer1Data->pos.y, x, y) ||
 					getLengthSquare(pCurrentMyPlayerData->pos.x, pCurrentMyPlayerData->pos.y, x, y) + 6400 * 2	>
 					getLengthSquare(pEnemyPlayer2Data->pos.x, pEnemyPlayer2Data->pos.y, x, y)
-          )
-        {
-          continue;
-        }
+					)
+				{
+					continue;
+				}
 
-        float diffLength =
+				float diffLength =
 					 - getLengthSquare(pCurrentMyPlayerData->pos.x, pCurrentMyPlayerData->pos.y, x, y)
 					 + getLengthSquare(pEnemyPlayer1Data->pos.x, pEnemyPlayer1Data->pos.y, x, y)
 					 - getLengthSquare(pCurrentMyPlayerData->pos.x, pCurrentMyPlayerData->pos.y, x, y)
 					 + getLengthSquare(pEnemyPlayer2Data->pos.x, pEnemyPlayer2Data->pos.y, x, y);
-        if (minDiffLength > diffLength)
-        {
-          minDiffLength = diffLength;
-          targetX = x;
-          targetY = y;
-        }
-      }
-    }
-    fprintf(logFp, "run away : minDiffLnegth = %f\n", minDiffLength);
+				if (minDiffLength > diffLength)
+				{
+					minDiffLength = diffLength;
+					targetX = x;
+					targetY = y;
+				}
+			}
+		}
+		fprintf(logFp, "run away : minDiffLnegth = %f\n", minDiffLength);
 	}
 
 	// 指定したターゲットに向かう
