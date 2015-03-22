@@ -49,7 +49,8 @@ public:
     virtual int adjustRange(int angle);
     virtual int getDiffAngle(int currentAngle, int x1, int y1, int x2, int y2, int option);
     virtual bool canAttack(double sStartX, double sStartY, double angle, int coolTime, int stunTime, double Px, double Py);
-    virtual double getDistanceLinePoint(double sStartX, double sStartY, double angle, int scalar, double Px, double Py);
+    virtual double getAttackDistance(double sStartX, double sStartY, double angle, int scalar, double Px, double Py);
+    // virtual double getDistanceLinePoint(double sStartX, double sStartY, double angle, int scalar, double Px, double Py);
 };
 
 #endif

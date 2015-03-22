@@ -6,6 +6,7 @@
 class AIInterface {
 public:
 	FILE *logFp;
+	FILE *logLocal;
     virtual Command Update(TurnData turnData) = 0;
 };
 

@@ -85,11 +85,13 @@ int main()
 
     int turn = 0;
     do {
-        ai->logFp = fopen("ai.log", "a");
-		TurnData turnData = ai_core->input();
-		Command command = ai->Update(turnData);
-		ai_core->output(command);
-		fclose(ai->logFp);
+      ai->logFp = fopen("ai.log", "a");
+      ai->logLocal = fopen("attack.log", "a");
+		  TurnData turnData = ai_core->input();
+		  Command command = ai->Update(turnData);
+		  ai_core->output(command);
+		  fclose(ai->logFp);
+		  fclose(ai->logLocal);
     } while(turn < 600);
 
 	 return 0;
