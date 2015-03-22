@@ -255,6 +255,20 @@ Command GriphoneAI::Update(TurnData turnData)
 			  continue;
 			}
 
+			for (int j_enemy = 0; j_enemy < PLAYER_COUNT - 1; j_enemy++) {
+			  // 敵の近くはやめる
+			  if (getLengthSquare(pCurrentMyPlayerData->pos.x, pCurrentMyPlayerData->pos.y, pCurrentCoinData->pos.x, pCurrentCoinData->pos.y) + 6400 * 2 >
+				    getLengthSquare(pEnemyPlayerData[j_enemy]->pos.x, pEnemyPlayerData[j_enemy]->pos.y, pCurrentCoinData->pos.x, pCurrentCoinData->pos.y)
+					 )
+			  {
+			    bContinue = true;
+			    break;
+			  }
+			}
+			if (bContinue) {
+			  continue;
+			}
+
 			// ターン距離を取得する
 			TimeLength timeLength = GetTimeLength(
 				pCurrentMyPlayerData->pos.x,
@@ -286,52 +300,52 @@ Command GriphoneAI::Update(TurnData turnData)
 			  continue;
 			}
 
-      // コインが集まっているほど評価値を良くする
-      if (timeLength.turn < MAX_TURN)
-      {
-        float nearCoinInverseLength = 0;
-        for (int j = 0; j < turnData.coinCount; j++)
-        {
-          if (i == j) continue;
-          CoinData *pTargetCoinData = &turnData.coinList[j];
-          float length = getLengthSquare(
-            pCurrentCoinData->pos.x,
-            pCurrentCoinData->pos.y,
-            pTargetCoinData->pos.x,
-            pTargetCoinData->pos.y
-          );
-          if (length < 100000000) // 必要ないかもだからすごい大きな値にしている
-          {
-            // 距離の逆数をたす
-            nearCoinInverseLength += NEAR_COIN_INVERSE_LENGTH_FACTOR / length;
-          }
-        }
-        // 評価が高いほどマイナス分が大きくなりよいコインとなる
-        timeLength.turn -= nearCoinInverseLength;
-        fprintf(logFp, "near coin point : %f\n", nearCoinInverseLength);
+			// コインが集まっているほど評価値を良くする
+			if (timeLength.turn < MAX_TURN)
+			{
+				float nearCoinInverseLength = 0;
+				for (int j = 0; j < turnData.coinCount; j++)
+				{
+					if (i == j) continue;
+					CoinData *pTargetCoinData = &turnData.coinList[j];
+					float length = getLengthSquare(
+						pCurrentCoinData->pos.x,
+						pCurrentCoinData->pos.y,
+						pTargetCoinData->pos.x,
+						pTargetCoinData->pos.y
+					);
+					if (length < 100000000) // 必要ないかもだからすごい大きな値にしている
+					{
+						// 距離の逆数をたす
+						nearCoinInverseLength += NEAR_COIN_INVERSE_LENGTH_FACTOR / length;
+					}
+				}
+				// 評価が高いほどマイナス分が大きくなりよいコインとなる
+				timeLength.turn -= nearCoinInverseLength;
+				fprintf(logFp, "near coin point : %f\n", nearCoinInverseLength);
 
 
-        // このコインを取った後に取りやすいコインがいくつあるか
-        int nextNearCoinCount = 0;
-        for (int j = 0; j < turnData.coinCount; j++)
-        {
-          if (i == j) continue;
-          CoinData *pTargetCoinData = &turnData.coinList[j];
-          TimeLength timeLengthToAnotherCoin = GetTimeLength(
-            timeLength.pos.x,
-            timeLength.pos.y,
-            timeLength.angle,
-            pTargetCoinData->pos.x,
-            pTargetCoinData->pos.y
-          );
-          if (timeLengthToAnotherCoin.turn < 10)
-          {
-            nextNearCoinCount++;
-          }
-        }
-        timeLength.turn -= nextNearCoinCount;
-        fprintf(logFp, "next near coin count : %d\n", nextNearCoinCount);
-      }
+				// このコインを取った後に取りやすいコインがいくつあるか
+				int nextNearCoinCount = 0;
+				for (int j = 0; j < turnData.coinCount; j++)
+				{
+					if (i == j) continue;
+					CoinData *pTargetCoinData = &turnData.coinList[j];
+					TimeLength timeLengthToAnotherCoin = GetTimeLength(
+						timeLength.pos.x,
+						timeLength.pos.y,
+						timeLength.angle,
+						pTargetCoinData->pos.x,
+						pTargetCoinData->pos.y
+					);
+					if (timeLengthToAnotherCoin.turn < 10)
+					{
+						nextNearCoinCount++;
+					}
+				}
+				timeLength.turn -= nextNearCoinCount;
+				fprintf(logFp, "next near coin count : %d\n", nextNearCoinCount);
+			}
 
 			// より近いコインかどうか判定
 			if (timeLength.turn < minTurn)
@@ -352,7 +366,6 @@ Command GriphoneAI::Update(TurnData turnData)
 			// fprintf(logFp, "goto coin%d : %d turn\n", minCoinIndex, minTurn);
 		}
 	}
-
 
 	// 追跡する
 	for (int j_enemy = 0; j_enemy < PLAYER_COUNT - 1; j_enemy++) {
@@ -433,7 +446,7 @@ Command GriphoneAI::Update(TurnData turnData)
           continue;
         }
 
-        float diffLength =
+				float diffLength =
 					 - getLengthSquare(pCurrentMyPlayerData->pos.x, pCurrentMyPlayerData->pos.y, x, y)
 					 + getLengthSquare(pEnemyPlayerData[0]->pos.x, pEnemyPlayerData[0]->pos.y, x, y)
 					 - getLengthSquare(pCurrentMyPlayerData->pos.x, pCurrentMyPlayerData->pos.y, x, y)
