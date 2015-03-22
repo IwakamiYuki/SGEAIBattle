@@ -36,6 +36,8 @@ public:
     // -12~ 12以内に収める
     static const int DIFF_ANGLE_WITHIN_12  = 2;
 
+    // 近くのコインまでの距離の逆数にかける係数。ターン距離と比較に用いる
+    const int NEAR_COIN_INVERSE_LENGTH_FACTOR = 1000;
 
     GriphoneAI();
     virtual TimeLength GetTimeLength(float startX, float startY, int startAngle, float targetX, float targetY);

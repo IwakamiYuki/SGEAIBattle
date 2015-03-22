@@ -44,6 +44,8 @@ TimeLength GriphoneAI::GetTimeLength(float startX, float startY, int startAngle,
 			fprintf(logFp, "cul %d:	(%f,%f, %d)=>(%f,%f)	%d \n", i, currentX, currentY, currentAngle, targetX, targetY, ddAngle);
 			timeLength->turn = i;
 			timeLength->angle = currentAngle;
+			timeLength->pos.x = currentX;
+			timeLength->pos.y = currentY;
 			break;
 		}
 	}
@@ -287,6 +289,7 @@ Command GriphoneAI::Update(TurnData turnData)
       // コインが集まっているほど評価値を良くする
       if (timeLength.turn < MAX_TURN)
       {
+        float nearCoinInverseLength = 0;
         for (int j = 0; j < turnData.coinCount; j++)
         {
           if (i == j) continue;
@@ -297,9 +300,37 @@ Command GriphoneAI::Update(TurnData turnData)
             pTargetCoinData->pos.x,
             pTargetCoinData->pos.y
           );
-          if (length < 100000)
-            timeLength.turn -= 10;
+          if (length < 100000000) // 必要ないかもだからすごい大きな値にしている
+          {
+            // 距離の逆数をたす
+            nearCoinInverseLength += NEAR_COIN_INVERSE_LENGTH_FACTOR / length;
+          }
         }
+        // 評価が高いほどマイナス分が大きくなりよいコインとなる
+        timeLength.turn -= nearCoinInverseLength;
+        fprintf(logFp, "near coin point : %f\n", nearCoinInverseLength);
+
+
+        // このコインを取った後に取りやすいコインがいくつあるか
+        int nextNearCoinCount = 0;
+        for (int j = 0; j < turnData.coinCount; j++)
+        {
+          if (i == j) continue;
+          CoinData *pTargetCoinData = &turnData.coinList[j];
+          TimeLength timeLengthToAnotherCoin = GetTimeLength(
+            timeLength.pos.x,
+            timeLength.pos.y,
+            timeLength.angle,
+            pTargetCoinData->pos.x,
+            pTargetCoinData->pos.y
+          );
+          if (timeLengthToAnotherCoin.turn < 10)
+          {
+            nextNearCoinCount++;
+          }
+        }
+        timeLength.turn -= nextNearCoinCount;
+        fprintf(logFp, "next near coin count : %d\n", nextNearCoinCount);
       }
 
 			// より近いコインかどうか判定
@@ -344,7 +375,7 @@ Command GriphoneAI::Update(TurnData turnData)
 		      );
 		  fprintf(logFp, "vs%d:		%d - %d\n", j_enemy+1, timeLengthMeToEnemy1.turn, timeLengthEnemy1ToMe.turn);
 		  // 有利な状態は追跡する
-		  if (pEnemyPlayerData[j_enemy]->stunTime == 0 && pEnemyPlayerData[j_enemy]->coin >= pCurrentMyPlayerData->coin && timeLengthMeToEnemy1.turn <= timeLengthEnemy1ToMe.turn)
+		  if (pEnemyPlayerData[j_enemy]->stunTime == 0 && pEnemyPlayerData[j_enemy]->coin > pCurrentMyPlayerData->coin && timeLengthMeToEnemy1.turn <= timeLengthEnemy1ToMe.turn)
 		  {
 			  targetX = pEnemyPlayerData[j_enemy]->pos.x;
 			  targetY = pEnemyPlayerData[j_enemy]->pos.y;

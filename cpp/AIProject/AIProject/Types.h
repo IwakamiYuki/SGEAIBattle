@@ -38,6 +38,7 @@ typedef struct TimeLength {
     GameAction::GameAction action;
     int turn;
     int angle;
+    Point pos;
 }TimeLength;
 
 class CoinData {
