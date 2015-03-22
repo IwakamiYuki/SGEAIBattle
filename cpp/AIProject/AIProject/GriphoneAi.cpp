@@ -264,17 +264,21 @@ Command GriphoneAI::Update(TurnData turnData)
 			}
 
       // コインが集まっているほど評価値を良くする
-      for (int j = 0; j < turnData.coinCount; j++)
+      if (timeLength.turn < MAX_TURN)
       {
-        CoinData *pTargetCoinData = &turnData.coinList[j];
-        float length = getLengthSquare(
-          pCurrentCoinData->pos.x,
-          pCurrentCoinData->pos.y,
-          pTargetCoinData->pos.x,
-          pTargetCoinData->pos.y
-        );
-        if (length < 10000)
-          timeLength.turn -= 1;
+        for (int j = 0; j < turnData.coinCount; j++)
+        {
+          if (i == j) continue;
+          CoinData *pTargetCoinData = &turnData.coinList[j];
+          float length = getLengthSquare(
+            pCurrentCoinData->pos.x,
+            pCurrentCoinData->pos.y,
+            pTargetCoinData->pos.x,
+            pTargetCoinData->pos.y
+          );
+          if (length < 100000)
+            timeLength.turn -= 10;
+        }
       }
 
 			// より近いコインかどうか判定
