@@ -288,6 +288,28 @@ Command GriphoneAI::Update(TurnData turnData)
         // 評価が高いほどマイナス分が大きくなりよいコインとなる
         timeLength.turn -= nearCoinInverseLength;
         fprintf(logFp, "near coin point : %f\n", nearCoinInverseLength);
+
+
+        // このコインを取った後に取りやすいコインがいくつあるか
+        int nextNearCoinCount = 0;
+        for (int j = 0; j < turnData.coinCount; j++)
+        {
+          if (i == j) continue;
+          CoinData *pTargetCoinData = &turnData.coinList[j];
+          TimeLength timeLengthToAnotherCoin = GetTimeLength(
+            timeLength.pos.x,
+            timeLength.pos.y,
+            timeLength.angle,
+            pTargetCoinData->pos.x,
+            pTargetCoinData->pos.y
+          );
+          if (timeLengthToAnotherCoin.turn < 10)
+          {
+            nextNearCoinCount++;
+          }
+        }
+        timeLength.turn -= nextNearCoinCount;
+        fprintf(logFp, "next near coin count : %d\n", nextNearCoinCount);
       }
 
 			// より近いコインかどうか判定
