@@ -143,7 +143,7 @@ Command GriphoneAI::Update(TurnData turnData)
 		);
 		fprintf(logFp, "vs1:		%d - %d\n", timeLengthMeToEnemy1.turn, timeLengthEnemy1ToMe.turn);
 		// ある程度近くにいたら
-		if (timeLengthMeToEnemy1.turn <= PLAYER_COUNT)
+		if (timeLengthMeToEnemy1.turn <= 1)
 		{
 			command->action = GameAction::Attack;
 			// 攻撃すべき状況か
@@ -176,7 +176,7 @@ Command GriphoneAI::Update(TurnData turnData)
 		);
 		fprintf(logFp, "vs2:		%d - %d\n", timeLengthMeToEnemy2.turn, timeLengthEnemy2ToMe.turn);
 		// ある程度近くにいたら
-		if(timeLengthMeToEnemy2.turn <= PLAYER_COUNT)
+		if(timeLengthMeToEnemy2.turn <= 1)
 		{
 			command->action = GameAction::Attack;
 			// 攻撃すべき状況か
@@ -230,13 +230,13 @@ Command GriphoneAI::Update(TurnData turnData)
 				}
 			}
 			// 敵の近くはやめる
-			if (getLengthSquare(pCurrentMyPlayerData->pos.x, pCurrentMyPlayerData->pos.y, pCurrentCoinData->pos.x, pCurrentCoinData->pos.y) >
+			if (getLengthSquare(pCurrentMyPlayerData->pos.x, pCurrentMyPlayerData->pos.y, pCurrentCoinData->pos.x, pCurrentCoinData->pos.y) + 6400 * 2 >
 				getLengthSquare(pEnemyPlayer1Data->pos.x, pEnemyPlayer1Data->pos.y, pCurrentCoinData->pos.x, pCurrentCoinData->pos.y)
 					)
 			{
 				continue;
 			}
-			if (getLengthSquare(pCurrentMyPlayerData->pos.x, pCurrentMyPlayerData->pos.y, pCurrentCoinData->pos.x, pCurrentCoinData->pos.y) >
+			if (getLengthSquare(pCurrentMyPlayerData->pos.x, pCurrentMyPlayerData->pos.y, pCurrentCoinData->pos.x, pCurrentCoinData->pos.y) + 6400 * 2 >
 				getLengthSquare(pEnemyPlayer2Data->pos.x, pEnemyPlayer2Data->pos.y, pCurrentCoinData->pos.x, pCurrentCoinData->pos.y)
 				)
 			{
