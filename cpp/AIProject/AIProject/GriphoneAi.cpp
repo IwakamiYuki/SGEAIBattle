@@ -97,10 +97,20 @@ int GriphoneAI::adjustRange(int angle)
 
 }
 
-bool GriphoneAI::canAttack(double sStartX, double sStartY, double angle, double Px, double Py)
+bool GriphoneAI::canAttack(double sStartX, double sStartY, double angle, int coolTime, int stunTime, double Px, double Py)
 {
+	// クールタイム中は攻撃できない
+  if (coolTime > 0) return false;
+  // スタンタイム中は攻撃出来ない
+  if (stunTime > 0) return false;
+  // 角度が足らなければ攻撃出来ない
+  int diffAngle = getDiffAngle(angle, sStartX, sStartY, Px, Py);
+  if (abs(diffAngle) > MAX_RANGE) return false;
+
   double distance = getDistanceLinePoint(sStartX, sStartY, angle, PLAYER_RADIUS * 2, Px, Py);
+  // 相手との距離と相手が全力で逃げた場合の量
   return distance + EPSILON <= 2 * PLAYER_RADIUS;
+  // return true;
 }
 
 //線分と点の距離
@@ -186,21 +196,23 @@ Command GriphoneAI::Update(TurnData turnData)
 			    pCurrentMyPlayerData->pos.y
 		      );
 		  fprintf(logFp, "vs%d:		%d - %d\n", i + 1, timeLengthMeToEnemy1.turn, timeLengthEnemy1ToMe.turn);
-		  // ある程度近くにいたら かつ向きがあっていたら
+		  // ある程度近くにいたら かつ距離があり、coolTImeが残っていたら
 		  if(timeLengthMeToEnemy1.turn <= ATTACK_THRESHOLD_TURN &&
 		      canAttack(
 			    pCurrentMyPlayerData->pos.x,
 			    pCurrentMyPlayerData->pos.y,
 			    pCurrentMyPlayerData->angle,
+		      pCurrentMyPlayerData->coolTime,
+		      pCurrentMyPlayerData->stunTime,
 			    pEnemyPlayerData[i]->pos.x,
 			    pEnemyPlayerData[i]->pos.y
 		        )
 		      )
 		  {
-			  command->action = GameAction::Attack;
 			  // 攻撃すべき状況か
 			  if (pEnemyPlayerData[i]->coin > pCurrentMyPlayerData->coin && pEnemyPlayerData[i]->stunTime == 0 && timeLengthMeToEnemy1.turn <= timeLengthEnemy1ToMe.turn)
 			  {
+			    command->action = GameAction::Attack;
 				  targetX = pEnemyPlayerData[i]->pos.x;
 				  targetY = pEnemyPlayerData[i]->pos.y;
 				  fprintf(logFp, "attack %d\n", i + 1);
@@ -302,11 +314,11 @@ Command GriphoneAI::Update(TurnData turnData)
 		if (minCoinIndex >= 0)
 		{
 			CoinData *pNearestCoinData = &turnData.coinList[minCoinIndex];
-			fprintf(logFp, "nearest coin : %d : %d\n", minCoinIndex, minTurn);
+			// fprintf(logFp, "nearest coin : %d : %d\n", minCoinIndex, minTurn);
 
 			targetX = pNearestCoinData->pos.x;
 			targetY = pNearestCoinData->pos.y;
-			fprintf(logFp, "goto coin%d : %d turn\n", minCoinIndex, minTurn);
+			// fprintf(logFp, "goto coin%d : %d turn\n", minCoinIndex, minTurn);
 		}
 	}
 
@@ -361,15 +373,15 @@ Command GriphoneAI::Update(TurnData turnData)
           x, y
         );
         TimeLength timeLengthEnemy1ToTarget = GetTimeLength(
-          pEnemyPlayer1Data->pos.x,
-          pEnemyPlayer1Data->pos.y,
-          pEnemyPlayer1Data->angle,
+          pEnemyPlayerData[0]->pos.x,
+          pEnemyPlayerData[0]->pos.y,
+          pEnemyPlayerData[0]->angle,
           x, y
         );
         TimeLength timeLengthEnemy2ToTarget = GetTimeLength(
-          pEnemyPlayer2Data->pos.x,
-          pEnemyPlayer2Data->pos.y,
-          pEnemyPlayer2Data->angle,
+          pEnemyPlayerData[1]->pos.x,
+          pEnemyPlayerData[1]->pos.y,
+          pEnemyPlayerData[1]->angle,
           x, y
         );
 
@@ -382,9 +394,9 @@ Command GriphoneAI::Update(TurnData turnData)
         // 敵より奥の目標値は除外
         if (
 					getLengthSquare(pCurrentMyPlayerData->pos.x, pCurrentMyPlayerData->pos.y, x, y) + 6400 * 2	>
-					getLengthSquare(pEnemyPlayer1Data->pos.x, pEnemyPlayer1Data->pos.y, x, y) ||
+					getLengthSquare(pEnemyPlayerData[0]->pos.x, pEnemyPlayerData[0]->pos.y, x, y) ||
 					getLengthSquare(pCurrentMyPlayerData->pos.x, pCurrentMyPlayerData->pos.y, x, y) + 6400 * 2	>
-					getLengthSquare(pEnemyPlayer2Data->pos.x, pEnemyPlayer2Data->pos.y, x, y)
+					getLengthSquare(pEnemyPlayerData[1]->pos.x, pEnemyPlayerData[1]->pos.y, x, y)
           )
         {
           continue;
@@ -392,9 +404,9 @@ Command GriphoneAI::Update(TurnData turnData)
 
         float diffLength =
 					 - getLengthSquare(pCurrentMyPlayerData->pos.x, pCurrentMyPlayerData->pos.y, x, y)
-					 + getLengthSquare(pEnemyPlayer1Data->pos.x, pEnemyPlayer1Data->pos.y, x, y)
+					 + getLengthSquare(pEnemyPlayerData[0]->pos.x, pEnemyPlayerData[0]->pos.y, x, y)
 					 - getLengthSquare(pCurrentMyPlayerData->pos.x, pCurrentMyPlayerData->pos.y, x, y)
-					 + getLengthSquare(pEnemyPlayer2Data->pos.x, pEnemyPlayer2Data->pos.y, x, y);
+					 + getLengthSquare(pEnemyPlayerData[1]->pos.x, pEnemyPlayerData[1]->pos.y, x, y);
         if (minDiffLength > diffLength)
         {
           minDiffLength = diffLength;
@@ -406,37 +418,35 @@ Command GriphoneAI::Update(TurnData turnData)
     fprintf(logFp, "run away : minDiffLnegth = %f\n", minDiffLength);
 	}
 
-	// 指定したターゲットに向かう
-	fprintf(logFp, "target (%f, %f)\n", targetX, targetY);
-	angle = 180 / M_PI * atan2f( targetY - pCurrentMyPlayerData->pos.y, targetX - pCurrentMyPlayerData->pos.x) - pCurrentMyPlayerData->angle;
 
-	// -180 ~ 180 に調整
-	angle = getDiffAngle(
-	    pCurrentMyPlayerData->angle,
-	    pCurrentMyPlayerData->pos.x,
-	    pCurrentMyPlayerData->pos.y,
-	    targetX,
-	    targetY,
-	    DIFF_ANGLE_WITHIN_180
-	    );
-
-	fprintf(logFp, "%d\n", angle);
-
-	// ±12度以内に収める
-	angle = adjustRange(angle);
-
-	command->angle = angle;
-
-	// クールタイム中は攻撃できない
-	if (pCurrentMyPlayerData->coolTime > 0)
+	// スタンタイムでなければ向き変更
+	if (pCurrentMyPlayerData->stunTime == 0)
 	{
-		command->action = GameAction::Move;
+	  // 指定したターゲットに向かう
+	  fprintf(logFp, "target (%f, %f)\n", targetX, targetY);
+	  angle = 180 / M_PI * atan2f( targetY - pCurrentMyPlayerData->pos.y, targetX - pCurrentMyPlayerData->pos.x) - pCurrentMyPlayerData->angle;
+
+	  // -180 ~ 180 に調整
+	  angle = getDiffAngle(
+	      pCurrentMyPlayerData->angle,
+	      pCurrentMyPlayerData->pos.x,
+	      pCurrentMyPlayerData->pos.y,
+	      targetX,
+	      targetY,
+	      DIFF_ANGLE_WITHIN_180
+	      );
+
+	  fprintf(logFp, "%d\n", angle);
+
+	  // ±12度以内に収める
+	  angle = adjustRange(angle);
+
+	  command->angle = angle;
+	fprintf(logFp, "change angle %d\n", angle);
 	}
-	// スタンタイム中は移動も攻撃も向き変更もできない
-	if (pCurrentMyPlayerData->stunTime > 0)
+	else
 	{
-		command->angle = 0;
-		command->action = GameAction::Move;
+	  command->angle = 0;
 	}
 
 	return *command;
